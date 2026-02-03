@@ -2,7 +2,8 @@
 // used GenAI to genereate starting style based off of mock-up photo (also created using GenAI) in Project Plan
 // fine-tuned/tweaked styles from GenAI
 
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform, UIManager } from "react-native";
+
 
 const COLORS = {
   bg: "#F4F6EA",           // warm off-white
@@ -116,20 +117,35 @@ export const styles = StyleSheet.create({
   },
 
   appTitleBig: {
-    fontSize: 34,
-    fontWeight: "900",
+    fontSize: 64,
     color: COLORS.primary,
     textAlign: "center",
     letterSpacing: 1.4,
     textTransform: "uppercase",
+    fontFamily: 'Rubik-Dirt',
+  },
+
+    appTitleSmall: {
+    fontSize: 32,
+    color: COLORS.primary,
+    textAlign: "center",
+    letterSpacing: 1.4,
+    textTransform: "uppercase",
+    fontFamily: 'Rubik-Dirt',
+  },
+
+  logoContainer: { 
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   logoImage: {
-    width: 140,
-    height: 90,
+    width: 280,
+    height: 180,
     resizeMode: "contain",
-    marginVertical: 10,
+    marginVertical: 25,
   },
+
 
   // ---------- Buttons ----------
   button: {
@@ -198,6 +214,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingTop: 10,
     paddingBottom: 10,
+    alignItems: "center",
   },
 
   // large map/list area (center panel)
