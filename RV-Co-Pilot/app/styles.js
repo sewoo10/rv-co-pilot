@@ -79,6 +79,14 @@ export const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
 
+  header_divider: {
+    height: 3,
+    backgroundColor: COLORS.border,
+    marginVertical: 6,
+    width: '50%',
+    alignSelf: 'center',
+  },
+
   // ---------- Common text ----------
   h1: {
     fontSize: 22,
@@ -86,6 +94,7 @@ export const styles = StyleSheet.create({
     color: COLORS.primary,
     textAlign: "center",
     letterSpacing: 1.0,
+    marginVertical: 5,
   },
 
   h2: {
@@ -140,10 +149,10 @@ export const styles = StyleSheet.create({
   },
 
   logoImage: {
-    width: 280,
-    height: 180,
+    width: 210,
+    height: 135,
     resizeMode: "contain",
-    marginVertical: 25,
+    marginVertical: 15,
   },
 
 

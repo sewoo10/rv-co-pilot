@@ -12,6 +12,7 @@ export default function Index() {
     >
       {/*Here for testing; to access different pages*/}
       <Link href="/(tabs)/welcome">Welcome</Link>
+      <Link href="/(tabs)/login">Login</Link>
       <Link href="/(tabs)/trip">Trip List</Link>
       <Link href="/(tabs)/trip_details">Trip Details</Link>
       <Link href="/(tabs)/create_trip">Create Trip</Link>

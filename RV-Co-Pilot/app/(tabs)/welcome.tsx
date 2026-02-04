@@ -23,7 +23,7 @@ const welcome = () => {
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, { width: 200,}]}
-                                    onPress={() => router.push('/(tabs)/login')}>
+                                    onPress={() => router.push('/(tabs)/register')}>
             <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
           <Text style={[styles.h2, {marginVertical:50}]}>Because every road trip needs a co-pilot.</Text>
