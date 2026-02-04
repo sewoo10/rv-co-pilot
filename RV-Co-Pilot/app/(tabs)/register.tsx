@@ -3,7 +3,7 @@ import { styles } from "../styles"
 import { router } from 'expo-router'
 import React from 'react'
 
-const login = () => {
+const register = () => {
   return (
     <View style={styles.screen}>
       
@@ -36,4 +36,4 @@ const login = () => {
   )
 }
 
-export default login
+export default register
