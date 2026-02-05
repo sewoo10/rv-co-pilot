@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {},
+  "extends": "expo/tsconfig.base",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+, "../frontend/app/(tabs)/login.tsx", "../frontend/app/(tabs)/register.tsx", "../frontend/app/(tabs)/welcome.tsx"  ]
+}
