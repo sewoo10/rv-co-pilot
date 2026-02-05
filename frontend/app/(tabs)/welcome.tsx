@@ -16,13 +16,13 @@ const welcome = () => {
         </View>
 
         {/*Body*/}
-        <View style={styles.body}>
+        <View style={[styles.body, {alignItems: 'center'}]}>
           
-          <TouchableOpacity style={[styles.button, { width: 200, marginVertical: 50,}]}
+          <TouchableOpacity style={[styles.button, { width: 200, alignItems: 'center', marginVertical: 50,}]}
                                     onPress={() => router.push('/(tabs)/login')}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, { width: 200,}]}
+          <TouchableOpacity style={[styles.button, { alignItems: 'center', width: 200,}]}
                                     onPress={() => router.push('/(tabs)/register')}>
             <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>

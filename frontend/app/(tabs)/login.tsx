@@ -15,7 +15,7 @@ const login = () => {
         </View>
         <View style = {styles.header_divider}/>
         {/*Body*/}
-        <View style={styles.body}>
+        <View style={[styles.body, {alignItems: 'center'}]}>
             <Text style={styles.h1}>Login</Text>
             <View style={styles.panel}>
                 <Text style={styles.listSub}>Login Form Placeholder</Text>   {/*TODO: Add login form.*/}
@@ -26,7 +26,7 @@ const login = () => {
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
         
-            <TouchableOpacity style={[styles.button, { width: 100, marginVertical: 0,}]}
+            <TouchableOpacity style={[styles.button, {alignItems: 'center', width: 100, marginVertical: 0,}]}
                                         onPress={() => router.push('/(tabs)/welcome')}>
                 <Text style={styles.buttonText}>Home</Text>
             </TouchableOpacity>
