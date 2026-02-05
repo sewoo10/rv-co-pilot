@@ -1,6 +1,6 @@
 // IMPORTANT - TEST CASES WAS CREATED VIA GENAI //
 // uses vitest with a mocked version of axios
-// to test in terminal: 1. "cd" to RV-Co-Pilot location 2. run npx vitest tests/tripService.test.ts
+// to test in terminal: 1. "cd" to frontend location 2. run npx vitest tests/tripService.test.ts
 
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { api } from '../app/api/axios';
