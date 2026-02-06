@@ -1,0 +1,10 @@
+# Backend env and virtual env
+backend/.env
+backend/.venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS Storage
+.DS_Store
