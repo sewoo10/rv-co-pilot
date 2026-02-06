@@ -15,7 +15,7 @@ const register = () => {
         </View>
         <View style = {styles.header_divider}/>
         {/*Body*/}
-        <View style={styles.body}>
+        <View style={[styles.body, {alignItems: 'center'}]}>
             <Text style={styles.h1}>Create Account</Text>
             <View style={styles.panel}>
                 <Text style={styles.listSub}>Registration Form Placeholder</Text>   {/*TODO: Add register form.*/}
