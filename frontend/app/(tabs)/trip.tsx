@@ -3,9 +3,9 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { styles } from "../styles"
 import { router } from 'expo-router'
-import React from 'react'
+import React, { JSX } from 'react'
 
-const trip = () => {
+const Trip = (): JSX.Element => {
   return (
     <View style={styles.screen}>
       <View style={styles.phoneFrame}>
@@ -30,7 +30,7 @@ const trip = () => {
         <View style={styles.centerToggleWrap}>
           <TouchableOpacity 
             style={[styles.button, styles.buttonSmall, { width: 100 }]}
-            onPress={() => router.push('create_trip')}
+            onPress={() => router.push('/create_trip')}
           >
             <Text style={styles.buttonText}>Create</Text>
           </TouchableOpacity>
@@ -38,19 +38,18 @@ const trip = () => {
 
         <View style={styles.footer}>
           <View style={styles.navBtn}>
-          <Text style={styles.navBtnText}>Account</Text>     {/*NEED TO LINK ACCOUNT PAGE ONCE IT IS MADE*/}
+            <Text style={styles.navBtnText}>Account</Text>     {/*NEED TO LINK ACCOUNT PAGE ONCE IT IS MADE*/}
           </View>
           <TouchableOpacity
             style={styles.navBtn}
-            onPress={() => router.push('/campsite_map')}  
+            onPress={() => router.push('/campsite_map')}
             >
               <Text style={styles.navBtnText}>Campsites</Text>
             </TouchableOpacity>
           </View>        
         </View>
-
       </View>
   )
 }
 
-export default trip
+export default Trip
