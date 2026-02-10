@@ -1,17 +1,28 @@
-// styles.js
+// styles.ts
 // used GenAI to genereate starting style based off of mock-up photo (also created using GenAI) in Project Plan
 // fine-tuned/tweaked styles from GenAI
 
-import { StyleSheet, Platform,UIManager} from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
-const COLORS = {
-  bg: "#F4F6EA",           // warm off-white
-  primary: "#0D3B22",      // deep forest green
-  primary2: "#1B5A35",     // accent green
-  border: "#184C2D",       // border green
-  panel: "#D7D9CF",        // list/map panels
-  text: "#0B1F12",         // near-black green
-  muted: "#6D756E",        // muted caption
+type Colors = {
+  bg: string;
+  primary: string;
+  primary2: string;
+  border: string;
+  panel: string;
+  text: string;
+  muted: string;
+  white: string;
+};
+
+const COLORS: Colors = {
+  bg: "#F4F6EA", // warm off-white
+  primary: "#0D3B22", // deep forest green
+  primary2: "#1B5A35", // accent green
+  border: "#184C2D", // border green
+  panel: "#D7D9CF", // list/map panels
+  text: "#0B1F12", // near-black green
+  muted: "#6D756E", // muted caption
   white: "#FFFFFF",
 };
 

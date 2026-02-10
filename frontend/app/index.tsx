@@ -1,13 +1,14 @@
-import { Text, View } from "react-native"
-import { Link } from "expo-router"
+import { View } from 'react-native'
+import { Link } from 'expo-router'
+import { JSX } from 'react'
 
-export default function Index() {
+export default function Index(): JSX.Element {
   return (
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
       {/*Here for testing; to access different pages*/}
@@ -23,5 +24,5 @@ export default function Index() {
       <Link href="/(tabs)/edit_campsite">Edit Campsite</Link>
       <Link href="/(tabs)/add_campsite">Add Campsite</Link>
     </View>
-  );
+  )
 }

@@ -1,11 +1,11 @@
-// This page will show the nearby campsites in a map format
+// This page will show the user's selected trip's details
 
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { styles } from "../styles"
 import { router } from 'expo-router'
-import React from 'react'
+import React, { JSX } from 'react'
 
-const campsite_map = () => {
+const TripDetails = (): JSX.Element => {
   return (
     <View style={styles.screen}>
       <View style={styles.phoneFrame}>
@@ -20,26 +20,28 @@ const campsite_map = () => {
 
         {/*Body*/}
         <View style={styles.body}>
-          <Text style={styles.listTitle}>Nearby Campsites</Text>
+          <Text style={styles.listTitle}>Trip A</Text>
           <View style={styles.panel}>
-            <View style={styles.map}>   {/*NEED TO ADD MAP*/}
-            </View>
+            <Text style={styles.listSub}>Trip details</Text>     {/*NEED TO ADD WAY TO LIST USER'S SAVED TRIP DETAILS*/}
           </View>
         </View>
 
         {/*Footer*/}
         <View style={styles.centerToggleWrap}>
-            <TouchableOpacity 
-              style={[styles.button, styles.buttonSmall, { width: 90 }]}
-              onPress={() => router.push('campsite_list')}
-            >
-              <Text style={styles.buttonText}>List</Text>
-            </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.button, styles.buttonSmall, { width: 100 }]}
+            onPress={() => router.push('edit_trip')}
+          >
+            <Text style={styles.buttonText}>Edit</Text>
+          </TouchableOpacity>
+          <View style={[styles.button, styles.buttonSmall, { width: 100 }]}>
+            <Text style={styles.buttonText}>Delete</Text>   {/*NEED TO ADD FUNCTION*/}
+          </View>
         </View> 
 
         <View style={styles.footer}>
           <View style={styles.navBtn}>
-          <Text style={styles.navBtnText}>Account</Text>    {/*NEED TO LINK ACCOUNT PAGE ONCE IT IS MADE*/}
+            <Text style={styles.navBtnText}>Account</Text>    {/*NEED TO LINK ACCOUNT PAGE ONCE IT IS MADE*/}
           </View>
           <TouchableOpacity
             style={styles.navBtn}
@@ -50,8 +52,8 @@ const campsite_map = () => {
           </View>        
         </View>
 
-    </View>
+      </View>
   )
 }
 
-export default campsite_map
+export default TripDetails

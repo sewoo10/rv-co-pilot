@@ -3,9 +3,9 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { styles } from "../styles"
 import { router } from 'expo-router'
-import React from 'react'
+import React, { JSX } from 'react'
 
-const add_campsite = () => {
+const EditCampsite = (): JSX.Element => {
   return (
     <View style={styles.screen}>
       <View style={styles.phoneFrame}>
@@ -20,22 +20,25 @@ const add_campsite = () => {
 
         {/*Body*/}
         <View style={styles.body}>
-          <Text style={styles.listTitle}>Add Campsite</Text>
+          <Text style={styles.listTitle}>Edit Campsite</Text>
           <View style={styles.panel}>
-            <Text style={styles.listSub}>Campsite Details Here</Text>   {/*NEED TO ADD USER FILL-IN*/}
+            <Text style={styles.listSub}>Campsite Details Here</Text>   {/*NEED TO ADD WAY TO LIST CAMPSITE DETAILS*/}
           </View>
         </View>
 
         {/*Footer*/}
         <View style={styles.centerToggleWrap}>
             <View style={[styles.button, styles.buttonSmall]}>
-            <Text style={styles.navBtnText}>Add</Text>    {/*NEED TO ADD FUNCTION*/}
+            <Text style={styles.navBtnText}>Confirm</Text>    {/*NEED TO ADD FUNCTION*/}
+            </View>
+            <View style={[styles.button, styles.buttonSmall]}>
+            <Text style={styles.navBtnText}>Delete</Text>   {/*NEED TO ADD FUNCTION*/}
             </View>
         </View> 
 
         <View style={styles.footer}>
           <View style={styles.navBtn}>
-          <Text style={styles.navBtnText}>Account</Text>    {/*NEED TO LINK ACCOUNT PAGE ONCE IT IS MADE*/}
+            <Text style={styles.navBtnText}>Account</Text>    {/*NEED TO LINK ACCOUNT PAGE ONCE IT IS MADE*/}
           </View>
           <TouchableOpacity
             style={styles.navBtn}
@@ -45,9 +48,8 @@ const add_campsite = () => {
             </TouchableOpacity>
           </View>        
         </View>
-
-    </View>
+      </View>
   )
 }
 
-export default add_campsite
+export default EditCampsite

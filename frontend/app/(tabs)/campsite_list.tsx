@@ -1,11 +1,11 @@
-// This page will allow the user to create a trip
+// This page will show the nearby campsites in a list format
 
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { styles } from "../styles"
 import { router } from 'expo-router'
-import React from 'react'
+import React, { JSX } from 'react'
 
-const create_trip = () => {
+const CampsiteList = (): JSX.Element => {
   return (
     <View style={styles.screen}>
       <View style={styles.phoneFrame}>
@@ -20,22 +20,25 @@ const create_trip = () => {
 
         {/*Body*/}
         <View style={styles.body}>
-          <Text style={styles.listTitle}>Create Trip</Text>
+          <Text style={styles.listTitle}>Nearby Campsites</Text>
           <View style={styles.panel}>
-            <Text style={styles.listSub}>Trip Details Here</Text>   {/*NEED TO ADD USER FILL-IN*/}
+            <Text style={styles.listSub}>Campsite A</Text>    {/*NEED TO ADD WAY TO LIST NEARBY CAMPSITES*/}
           </View>
         </View>
 
         {/*Footer*/}
         <View style={styles.centerToggleWrap}>
-            <View style={[styles.button, styles.buttonSmall]}>
-            <Text style={styles.navBtnText}>Add</Text>    {/*NEED TO ADD FUNCTION*/}
-            </View>
+            <TouchableOpacity 
+              style={[styles.button, styles.buttonSmall, { width: 90 }]}
+              onPress={() => router.push('/campsite_map')}
+            >
+              <Text style={styles.buttonText}>Map</Text>
+            </TouchableOpacity>
         </View> 
 
         <View style={styles.footer}>
           <View style={styles.navBtn}>
-          <Text style={styles.navBtnText}>Account</Text>    {/*NEED TO LINK ACCOUNT PAGE ONCE IT IS MADE*/}
+            <Text style={styles.navBtnText}>Account</Text>    {/*NEED TO LINK ACCOUNT PAGE ONCE IT IS MADE*/}
           </View>
           <TouchableOpacity
             style={styles.navBtn}
@@ -45,9 +48,8 @@ const create_trip = () => {
             </TouchableOpacity>
           </View>        
         </View>
-
-    </View>
+      </View>
   )
 }
 
-export default create_trip
+export default CampsiteList
