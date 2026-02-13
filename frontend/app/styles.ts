@@ -204,6 +204,23 @@ export const styles = StyleSheet.create({
   },
 
   // ---------- Inputs (Login screen) ----------
+  loginForm: {
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 8,
+    flexDirection: 'row',
+    paddingVertical: 10,
+    paddingHorizontal: 10
+  },
+
+  label: {
+    fontSize: 15,
+    fontWeight: '400',
+    lineHeight: 20,
+    width: 80,
+  },
+
+  
   input: {
     backgroundColor: COLORS.white,
     borderRadius: 6,
