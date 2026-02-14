@@ -1,11 +1,33 @@
 import { View, Text, Pressable, TextInput } from 'react-native'
 import { styles, theme } from "../styles"
 import { router } from 'expo-router'
-import React from 'react'
-import Spacer from '../components/Spacer';
+import React, { useState } from 'react'
+import Spacer from '../components/Spacer'
+import { login } from '../api/authService'
 
 
-const login = () => {
+const Login = () => {
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState<string | null>(null)
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setError("Please enter email and password")
+      return
+    }
+
+    try {
+      setError(null)
+      const data = await login({ email, password })
+      router.replace('/')
+
+    } catch (err: any) {
+      setError("Invalid email or password")
+      }
+  }
+
   return (
     <View style={styles.screen}>
       <View style={styles.phoneFrame}>
@@ -23,10 +45,12 @@ const login = () => {
             <Text style={styles.caption}>Sign in to your account</Text>
             <Spacer height={32} />
 
-            {/*Text Entry*/}
+            {/*Email Entry*/}
             <Pressable>
                 <View style={styles.loginForm}>
                 <TextInput
+                    value={email}
+                    onChangeText={setEmail}
                     autoCapitalize='none'
                     autoComplete='email'
                     autoCorrect={false}
@@ -35,14 +59,18 @@ const login = () => {
                     textContentType='username'
                     placeholder='Email'
                     placeholderTextColor={theme.COLORS.muted}
-
+                    
                 />
                 </View>
             </Pressable>
             <Spacer height={16} />
+
+            {/*Password Entry*/}
             <Pressable >
                 <View style={styles.loginForm}>
                 <TextInput
+                    value={password}
+                    onChangeText={setPassword}
                     autoCapitalize='none'
                     autoComplete='password'
                     autoCorrect={false}
@@ -56,9 +84,12 @@ const login = () => {
             </Pressable>
             <Spacer height={25} />
 
+            {/*Error messages*/}
+            {error && (<Text style={{ color: "red" }}>{error}</Text>)}
+            
             {/*Buttons*/}
             <Pressable style={[styles.button, { width: 200}]}
-                                        onPress={() => router.push('/(tabs)/login')}> {/*TODO: Add login.*/}
+                                        onPress={handleLogin}>
                 <Text style={styles.buttonText}>Login</Text>
             </Pressable>
             <Spacer height={25} />
@@ -72,4 +103,4 @@ const login = () => {
   )
 }
 
-export default login
+export default Login
