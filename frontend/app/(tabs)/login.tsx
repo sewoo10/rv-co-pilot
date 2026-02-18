@@ -1,39 +1,108 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
-import { styles } from "../styles"
+import { View, Text, Pressable, TextInput } from 'react-native'
+import { styles, theme } from "../styles"
 import { router } from 'expo-router'
-import React from 'react'
+import React, { useState } from 'react'
+import Spacer from '../components/Spacer'
+import { login } from '../api/authService'
 
-const login = () => {
-  return (
-    <View style={styles.screen}>
-      
-      <View style={styles.phoneFrame}>
-        
-        {/*Logo*/}
-        <View style={[styles.logoContainer, {marginVertical: 20}]}>       
-            <Text style={styles.appTitleBig}>RV COPILOT</Text>
-        </View>
-        <View style = {styles.header_divider}/>
-        {/*Body*/}
-        <View style={[styles.body, {alignItems: 'center'}]}>
-            <Text style={styles.h1}>Login</Text>
-            <View style={styles.panel}>
-                <Text style={styles.listSub}>Login Form Placeholder</Text>   {/*TODO: Add login form.*/}
-            </View>
 
-            <TouchableOpacity style={[styles.button, { width: 200, marginVertical: 50,}]}
-                                        onPress={() => router.push('/(tabs)/login')}> {/*TODO: Add login .*/}
-                <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-        
-            <TouchableOpacity style={[styles.button, {alignItems: 'center', width: 100, marginVertical: 0,}]}
-                                        onPress={() => router.push('/(tabs)/welcome')}>
-                <Text style={styles.buttonText}>Home</Text>
-            </TouchableOpacity>
-        </View>
-      </View> 
-    </View>
-  )
+const Login = () => {
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [error, setError] = useState<string | null>(null)
+
+    const handleLogin = async () => {
+      // Validate email and password fields
+      if (!email || !password) {
+        setError("Please enter email and password")
+        return
+      }
+
+      // Send login request and redirect to home after successful login
+      try {
+        setError(null)
+        const data = await login({ email, password })
+        router.replace('/') 
+
+      } catch (err: any) {
+        setError("Invalid email or password")
+        }
+    }
+
+    return (
+      <View style={styles.screen}>
+        <View style={styles.phoneFrame}>
+          
+          {/*Logo*/}
+          <View style={[styles.logoContainer, {marginVertical: 20}]}>       
+              <Text style={styles.appTitleBig}>RV COPILOT</Text>
+          </View>
+          <View style = {styles.header_divider}/>
+
+          {/*Body*/}
+          <View style={[styles.body, {alignItems: 'center'}]}>
+              <Text style={styles.h1}>Welcome back!</Text>
+              <Spacer height={5} />
+              <Text style={styles.caption}>Sign in to your account</Text>
+              <Spacer height={32} />
+
+              {/*Email Entry*/}
+              <Pressable>
+                  <View style={styles.loginForm}>
+                  <TextInput
+                      value={email}
+                      onChangeText={setEmail}
+                      autoCapitalize='none'
+                      autoComplete='email'
+                      autoCorrect={false}
+                      keyboardType='email-address'
+                      returnKeyType='next'
+                      textContentType='username'
+                      placeholder='Email'
+                      placeholderTextColor={theme.COLORS.muted}
+                      
+                  />
+                  </View>
+              </Pressable>
+              <Spacer height={16} />
+
+              {/*Password Entry*/}
+              <Pressable >
+                  <View style={styles.loginForm}>
+                  <TextInput
+                      value={password}
+                      onChangeText={setPassword}
+                      autoCapitalize='none'
+                      autoComplete='password'
+                      autoCorrect={false}
+                      returnKeyType='done'
+                      secureTextEntry
+                      textContentType='password'
+                      placeholder='Password'
+                      placeholderTextColor={theme.COLORS.muted}
+                  />
+                  </View>
+              </Pressable>
+              <Spacer height={25} />
+
+              {/*Error messages*/}
+              {error && (<Text style={{ color: "red" }}>{error}</Text>)}
+              
+              {/*Buttons*/}
+              <Pressable style={[styles.button, { width: 200}]}
+                                          onPress={handleLogin}>
+                  <Text style={styles.buttonText}>Login</Text>
+              </Pressable>
+              <Spacer height={25} />
+              <Pressable style={[styles.button, {alignItems: 'center', width: 100}]}
+                                          onPress={() => router.push('/')}>
+                  <Text style={styles.buttonText}>Home</Text>
+              </Pressable>
+          </View>
+        </View> 
+      </View>
+    )
 }
 
-export default login
+export default Login
