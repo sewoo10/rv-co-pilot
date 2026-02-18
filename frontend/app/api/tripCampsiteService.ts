@@ -35,18 +35,16 @@ export interface Campsites {
     latitude: number;
     longitude: number;
     campsiteType: string;
-    campsiteIdentifier: string;
+    siteIdentifier: string;
     isPublic: boolean;
-    dumpAvailable: boolean;
-    electricHookup: boolean;
-    waterAvailable: boolean;
-    restroomAvailable: boolean;
-    showerAvailable: boolean;
+    hasDump: boolean;
+    hasElectric: boolean;
+    hasWater: boolean;
     petsAllowed: boolean;
-    wifiAvailable: boolean;
+    hasWifi: boolean;
     cellCarrier: string;
-    cellQuality: number;
-    nearbyRecreation: string;
+    cellBars: number;
+    recreationNotes: string;
 }
 
 export interface CreateEditCampsiteRequest {
@@ -54,18 +52,16 @@ export interface CreateEditCampsiteRequest {
     latitude: number;
     longitude: number;
     campsiteType: string;
-    campsiteIdentifier: string;
+    siteIdentifier: string;
     isPublic: boolean;
-    dumpAvailable: boolean;
-    electricHookup: boolean;
-    waterAvailable: boolean;
-    restroomAvailable: boolean;
-    showerAvailable: boolean;
+    hasDump: boolean;
+    hasElectric: boolean;
+    hasWater: boolean;
     petsAllowed: boolean;
-    wifiAvailable: boolean;
+    hasWifi: boolean;
     cellCarrier: string;
-    cellQuality: number;
-    nearbyRecreation: string;
+    cellBars: number;
+    recreationNotes: string;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
