@@ -9,14 +9,20 @@ import { getUser } from '../api/userService'
 
 const Account = () => {
 
+    //============================
     // State
-    const [user, setUser] = useState<any>(null);
+    //============================
 
-    // User data retrevial
-    // Assumes backend response format {first_name: string, last_name: string, email: string, bio: string}
+    const [user, setUser] = useState<any>(null);
+    const user_id = 6; //TODO: Replace hardcoded test user ID with user ID for logged-in user
+
+
+    //===========================
+    // Handlers
+    //===========================
     const handleGetUser = async () => {
         try {
-            const response = await getUser(6);  //TODO: Replace hardcoded test user ID with user ID for logged-in user
+            const response = await getUser(user_id);  //TODO: Replace hardcoded test user ID with user ID for logged-in user
             setUser(response);
         } catch (error) {
             console.error("Failed to get user:", error);
@@ -24,6 +30,10 @@ const Account = () => {
     };
     useEffect(() => {handleGetUser();}, []);
 
+    
+    //===========================
+    // Render Page
+    //===========================
 
     return (
         <View style={styles.screen}>
@@ -49,13 +59,13 @@ const Account = () => {
                 <View style={styles.smallPanel}>
                     <Text style={[styles.listSub, {textAlign: 'left'}]}>Email: {user?.email || ""}</Text>
                 </View>
-                <View style={[styles.panel, {alignContent: 'flex-end' }, {margin: 5}]}>
+                <View style={[styles.panel, {flexDirection: 'row' }, {margin: 5}]}>
                     <Text style={[styles.listSub, {textAlign: 'left'}]}>Bio: {user?.bio || ""}</Text>
                 </View>                        
             </View>
             
             {/* Button */}
-            <View style={styles.centerToggleWrap}>
+            <View style={styles.buttonRow}>
                 <Pressable style={[styles.button, styles.buttonSmall, { width: 100 }]}
                     onPress={() => router.push('/edit_account')}
                     >
