@@ -9,7 +9,6 @@ import { api } from "./axios";
 export interface Trips {
     id: number;
     name: string;
-    dateCreated: string;
     campsites: CampsiteInTrip[];
 }
 
@@ -22,7 +21,6 @@ export interface CampsiteInTrip {
 
 export interface CreateEditTripRequest {
     name: string;
-    dateCreated: string;
     campsites: CampsiteInTrip[];
 }
 
@@ -79,6 +77,10 @@ export const getTrips = async () => {
 
 // function that creates or edit trip
 export const createEditTrip = async (data: CreateEditTripRequest) => {
+    // validate that trip name is not empty
+    if (!data.name || data.name.trim() === '') {
+        return null;
+    }
     const trip = await api.post<Trips>('/trips', data);       // "trips" is endpoint
     return trip.data;
 };
@@ -127,6 +129,14 @@ export const getCampsiteDetails = async (id: number) => {
 // functions regarding adding/removing campsites to trips
 // function that adds a campsite to a trip
 export const addCampsiteToTrip = async (tripId: number, campsiteId: number) => {  
+    // fetch the trip to check if campsite already exists
+    const trip = await getTripDetails(tripId);
+    
+    // check if campsite already exists in the trip
+    if (trip.campsites.some(c => c.campsiteId === campsiteId)) {
+        return null;  // campsite already in trip, cannot add duplicate
+    }
+    
     const campsite = await api.post<Trips>(`/trips/${tripId}/campsites`, { campsiteId });        // "campsites" and "trips" are endpoints  
     return campsite.data;
 };
