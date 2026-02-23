@@ -133,10 +133,10 @@ def login():
     )
 
     if not user:
-        return error_response("Invalid credentials", 401)
+        return error_response("Invalid username", 401)
 
     if not check_password_hash(user["password_hash"], data["password"]):
-        return error_response("Invalid credentials", 401)
+        return error_response("Invalid password", 401)
 
     token = create_token(user["user_id"])
 
