@@ -22,7 +22,6 @@ export interface CampsiteInTrip {
 
 export interface CreateEditTripRequest {
     name: string;
-    dateCreated: string;
     campsites: CampsiteInTrip[];
 }
 
