@@ -178,3 +178,4 @@ def authenticate():
         return error_response("Token expired", 401)
     except jwt.InvalidTokenError:
         return error_response("Invalid token", 401)
+        
