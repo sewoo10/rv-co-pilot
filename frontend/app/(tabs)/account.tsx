@@ -5,6 +5,7 @@ import { styles } from "../styles"
 import { router } from 'expo-router'
 import React, {useEffect, useState} from 'react'
 import { getUser } from '../api/userService'
+import type { GetUserResponse } from '../api/userService'  
 
 
 const Account = () => {
@@ -13,7 +14,7 @@ const Account = () => {
     // State
     //============================
 
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<GetUserResponse | null>(null)
     const user_id = 6; // TODO: Replace hardcoded test user ID with user ID for logged-in user
 
 
