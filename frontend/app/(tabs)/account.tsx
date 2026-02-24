@@ -14,7 +14,7 @@ const Account = () => {
     //============================
 
     const [user, setUser] = useState<any>(null);
-    const user_id = 6; //TODO: Replace hardcoded test user ID with user ID for logged-in user
+    const user_id = 6; // TODO: Replace hardcoded test user ID with user ID for logged-in user
 
 
     //===========================
