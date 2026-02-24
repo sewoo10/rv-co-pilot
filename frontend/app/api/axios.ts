@@ -4,9 +4,15 @@ import axios from "axios";
 import { Platform } from "react-native";
 
 // function that gets info of user's device
-const baseURL = Platform.OS === "ios"
-     ? "http://localhost:5000"      // iOS    
-     : "http://10.0.2.2:5000";      // Android
+const baseURL =
+  Platform.OS === "ios"
+    ? "http://localhost:5000"
+    : Platform.OS === "android"
+    ? "http://10.0.2.2:5000"
+    : Platform .OS === "web"
+    ? "http://127.0.0.1:5000"
+    : "http://127.0.0.1:5000";
+
 
 // function that creates a reusable Axios client
 export const api = axios.create ({

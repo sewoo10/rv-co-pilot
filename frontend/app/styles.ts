@@ -203,7 +203,7 @@ export const styles = StyleSheet.create({
     marginTop: 10,
   },
 
-  // ---------- Inputs (Login screen) ----------
+  // ---------- Inputs (Login/Register/Edit Account screens) ----------
   loginForm: {
     alignItems: 'center',
     backgroundColor: 'white',
@@ -211,6 +211,14 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 10,
     paddingHorizontal: 10
+  },
+
+  updateAccountForm: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    marginHorizontal: 10,
   },
 
   label: {
@@ -261,6 +269,18 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: COLORS.border,
     padding: 10,
+  },
+
+   smallPanel: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: COLORS.panel,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: COLORS.border,
+    padding: 10,
+    maxHeight: 50,
+    margin: 5,
   },
 
   // map placeholder
