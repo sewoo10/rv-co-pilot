@@ -19,7 +19,7 @@ const EditAccount = () => {
     const [last_name, setLastName] = useState('')
     const [bio, setBio] = useState('')
     const [error, setError] = useState<string | null>(null)
-    const user_id = 6; //TODO: Replace hardcoded test user ID with user ID for logged-in user
+    const user_id = 6; // TODO: Replace hardcoded test user ID with user ID for logged-in user
 
     //===========================
     // Handlers
