@@ -1,4 +1,4 @@
-//This page enables the user to edit the information associated with their account, or delete the account entirely.
+// This page enables the user to edit the information associated with their account, or delete the account entirely.
 
 import { View, Text, Image, Pressable, TextInput} from 'react-native'
 import { styles, theme } from "../styles"
