@@ -22,7 +22,7 @@ const Account = () => {
     //===========================
     const handleGetUser = async () => {
         try {
-            const response = await getUser(user_id);  //TODO: Replace hardcoded test user ID with user ID for logged-in user
+            const response = await getUser(user_id);  // TODO: Replace hardcoded test user ID with user ID for logged-in user
             setUser(response);
         } catch (error) {
             console.error("Failed to get user:", error);
