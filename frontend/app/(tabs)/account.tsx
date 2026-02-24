@@ -1,4 +1,4 @@
-//This page displays the information associated with the user's account.
+// This page displays the information associated with the user's account.
 
 import { View, Text, Image, Pressable} from 'react-native'
 import { styles } from "../styles"
