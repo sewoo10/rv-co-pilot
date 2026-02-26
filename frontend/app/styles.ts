@@ -40,7 +40,7 @@ const SHADOW = Platform.select({
 });
 
 export const styles = StyleSheet.create({
-  // ---------- Screen wrapper (the "phone" look) ----------
+  // ---------- Screen wrapper (the "phone" look) and containers ----------
   screen: {
     flex: 1,
     backgroundColor: COLORS.bg,
@@ -55,6 +55,10 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: "hidden",
     backgroundColor: COLORS.bg,
+  },
+
+  container: {
+    flex: 1,
   },
 
   // ---------- Header ----------
@@ -284,13 +288,10 @@ export const styles = StyleSheet.create({
   },
 
   // map placeholder
+
   map: {
-    flex: 1,
-    borderRadius: 8,
-    overflow: "hidden",
-    backgroundColor: "#E8ECE2",
-    borderWidth: 1.5,
-    borderColor: "#B8BEB5",
+    width: '100%',
+    height: '100%',
   },
 
   // list item styling

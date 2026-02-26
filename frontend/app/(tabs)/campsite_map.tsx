@@ -3,9 +3,18 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { styles } from "../styles"
 import { router } from 'expo-router'
-import React, { JSX } from 'react'
+import React, { useState, JSX } from 'react'
+import MapView, { Marker, PROVIDER_GOOGLE }  from 'react-native-maps';
+
 
 const CampsiteMap = (): JSX.Element => {
+  const [mapRegion, setMapRegion] = useState ({
+    latitude: 44.56,
+    longitude: -123.26,
+    latitudeDelta: .1,
+    longitudeDelta: .1,
+  });
+
   return (
     <View style={styles.screen}>
       <View style={styles.phoneFrame}>
@@ -21,9 +30,13 @@ const CampsiteMap = (): JSX.Element => {
         {/*Body*/}
         <View style={styles.body}>
           <Text style={styles.listTitle}>Nearby Campsites</Text>
-          <View style={styles.panel}>
-            <View style={styles.map}>   {/*NEED TO ADD MAP*/}
-            </View>
+          <View style={[styles.container, {marginVertical: 10}]}>
+            <MapView style={styles.map} provider={PROVIDER_GOOGLE} initialRegion={mapRegion}>
+              <Marker coordinate={{latitude: 44.52, longitude: -123.25,}}
+              pinColor='green'
+              title="test"
+              />
+            </MapView>
           </View>
         </View>
 
