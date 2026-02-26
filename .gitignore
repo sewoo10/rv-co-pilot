@@ -9,3 +9,4 @@ __pycache__/
 # OS Storage
 .DS_Store
 frontend/eslint.config.mts
+frontend/.env
