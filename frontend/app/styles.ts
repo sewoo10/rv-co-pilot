@@ -287,13 +287,13 @@ export const styles = StyleSheet.create({
     margin: 5,
   },
 
-  // map placeholder
+  // Map stying
 
   map: {
     width: '100%',
     height: '100%',
   },
-
+ 
   // list item styling
   listItem: {
     paddingVertical: 10,
