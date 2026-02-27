@@ -4,7 +4,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { styles } from "../styles"
 import { router } from 'expo-router'
 import React, { useState } from 'react'
-import Map from '../components/Map'
+import Map from '../../components/Map'
 
 
 

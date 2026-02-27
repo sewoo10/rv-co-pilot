@@ -2,7 +2,7 @@ import { View, Text, Pressable, TextInput } from 'react-native'
 import { styles, theme } from "../styles"
 import { router } from 'expo-router'
 import React, { useState } from 'react'
-import Spacer from '../components/Spacer'
+import Spacer from '../../components/Spacer'
 import { login } from '../api/authService'
 
 

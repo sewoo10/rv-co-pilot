@@ -5,7 +5,7 @@ import { styles, theme } from "../styles"
 import { router } from 'expo-router'
 import React, {useEffect, useState} from 'react'
 import { getUser, updateUser, deleteUser } from '../api/userService'
-import Spacer from '../components/Spacer';
+import Spacer from '../../components/Spacer';
 import type { GetUserResponse } from '../api/userService'   
 
 
@@ -85,9 +85,8 @@ const EditAccount = () => {
                 {/*First Name Entry*/}
                 <View style={styles.smallPanel}>
                     <Text style={[styles.listSub, {textAlign: 'left'}]}>First Name: </Text>
-                    <Pressable>
                         <View style={styles.updateAccountForm}>
-                        <TextInput
+                        <TextInput style={{flex: 1}}
                             onChangeText={setFirstName}
                             autoCapitalize='none'
                             autoComplete='given-name'
@@ -98,15 +97,15 @@ const EditAccount = () => {
                             placeholderTextColor={theme.COLORS.muted}
                         />
                         </View>
-                    </Pressable>
+
                 </View>
 
                 {/*Last Name Entry*/}
                 <View style={styles.smallPanel}>
                     <Text style={[styles.listSub, {textAlign: 'left'}]}>Last Name: </Text>
-                    <Pressable>
+
                         <View style={styles.updateAccountForm}>
-                        <TextInput
+                        <TextInput style={{flex: 1}}
                             onChangeText={setLastName}
                             autoCapitalize='none'
                             autoComplete='given-name'
@@ -116,8 +115,7 @@ const EditAccount = () => {
                             placeholder={user?.last_name}
                             placeholderTextColor={theme.COLORS.muted}
                         />
-                        </View>
-                    </Pressable>                                        
+                        </View>                                     
                 </View>
 
                 {/*Email (read-only)*/}
