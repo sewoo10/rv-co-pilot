@@ -140,8 +140,7 @@ export const styles = StyleSheet.create({
   },
 
   appTitleBig: {
-    fontSize: 64,
-    fontWeight: "900",
+    fontSize: 52,
     color: COLORS.primary,
     textAlign: "center",
     letterSpacing: 1.4,
@@ -214,7 +213,8 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     flexDirection: 'row',
     paddingVertical: 10,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    width: 250,
   },
 
   updateAccountForm: {
