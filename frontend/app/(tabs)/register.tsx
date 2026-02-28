@@ -2,7 +2,7 @@ import { View, Text, Pressable, TextInput, TouchableOpacity } from 'react-native
 import { styles, theme } from "../styles"
 import { router } from 'expo-router'
 import React, {useState} from 'react'
-import Spacer from '../components/Spacer';
+import Spacer from '../../components/Spacer';
 import { register } from '../api/authService'
 
 const Register = () => {
@@ -50,7 +50,7 @@ const Register = () => {
                 {/*First Name Entry*/}
                 <Pressable>
                     <View style={styles.loginForm}>
-                    <TextInput
+                    <TextInput style={styles.accountInput}
                         value={firstName}
                         onChangeText={setFirstName}
                         autoCapitalize='none'
@@ -68,7 +68,7 @@ const Register = () => {
                 {/*Last Name Entry*/}
                 <Pressable>
                     <View style={styles.loginForm}>
-                    <TextInput
+                    <TextInput style={styles.accountInput}
                         value={lastName}
                         onChangeText={setLastName}
                         autoCapitalize='none'
@@ -86,7 +86,7 @@ const Register = () => {
                 {/*Email Entry*/}
                 <Pressable>
                     <View style={styles.loginForm}>
-                    <TextInput
+                    <TextInput style={styles.accountInput}
                         value={email}
                         onChangeText={setEmail}
                         autoCapitalize='none'
@@ -105,7 +105,7 @@ const Register = () => {
                 {/*Password Entry*/}
                 <Pressable>
                     <View style={styles.loginForm}>
-                    <TextInput
+                    <TextInput style={styles.accountInput}
                         value={password}
                         onChangeText={setPassword}
                         autoCapitalize='none'
@@ -134,8 +134,11 @@ const Register = () => {
                     <Text style={styles.buttonText}>Home</Text>
                 </TouchableOpacity>
                 <Spacer height={15} />
-                <Text style={styles.caption}>Already have an account? Login.</Text>
-
+                <Text style={styles.caption}>Already have an account?
+                <Text>  </Text>
+                <Text style={[{color: 'blue'},{textDecorationLine: 'underline'} ]}
+                               onPress={() => router.push('/login')}>Login</Text>
+                </Text>
             </View>
         </View> 
         </View>

@@ -2,6 +2,8 @@ import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { styles } from "../styles"
 import { router } from 'expo-router'
 import React from 'react'
+import Spacer from '../../components/Spacer'
+
 
 const welcome = () => {
   return (
@@ -26,7 +28,8 @@ const welcome = () => {
                                     onPress={() => router.push('/(tabs)/register')}>
             <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
-          <Text style={[styles.h2, {marginVertical:50}]}>Because every road trip needs a co-pilot.</Text>
+          <Spacer height={40}/>
+          <Text style={[styles.h2]}>Because every road trip needs a co-pilot.</Text>
         </View>
       </View> 
 

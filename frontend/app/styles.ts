@@ -40,7 +40,7 @@ const SHADOW = Platform.select({
 });
 
 export const styles = StyleSheet.create({
-  // ---------- Screen wrapper (the "phone" look) ----------
+  // ---------- Screen wrapper (the "phone" look) and containers ----------
   screen: {
     flex: 1,
     backgroundColor: COLORS.bg,
@@ -55,6 +55,10 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: "hidden",
     backgroundColor: COLORS.bg,
+  },
+
+  container: {
+    flex: 1,
   },
 
   // ---------- Header ----------
@@ -136,8 +140,7 @@ export const styles = StyleSheet.create({
   },
 
   appTitleBig: {
-    fontSize: 64,
-    fontWeight: "900",
+    fontSize: 52,
     color: COLORS.primary,
     textAlign: "center",
     letterSpacing: 1.4,
@@ -180,12 +183,12 @@ export const styles = StyleSheet.create({
     ...SHADOW,
   },
 
-
   buttonSmall: {
     borderRadius: 16,
     paddingVertical: 8,
     paddingHorizontal: 14,
     marginVertical: 6,
+    ...SHADOW,
   },
 
   buttonText: {
@@ -193,6 +196,14 @@ export const styles = StyleSheet.create({
     fontWeight: "800",
     fontSize: 14,
     letterSpacing: 0.6,
+    textTransform: "uppercase",
+  },
+
+  buttonTextSmall: {
+    color: COLORS.white,
+    fontWeight: "600",
+    fontSize: 10,
+    letterSpacing: 0.5,
     textTransform: "uppercase",
   },
 
@@ -210,7 +221,8 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     flexDirection: 'row',
     paddingVertical: 10,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    width: 250,
   },
 
   updateAccountForm: {
@@ -239,6 +251,10 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.text,
     marginVertical: 6,
+  },
+
+  accountInput: {
+    width: 210,
   },
 
   helperText: {
@@ -272,27 +288,23 @@ export const styles = StyleSheet.create({
   },
 
    smallPanel: {
-    flex: 1,
     flexDirection: 'row',
     backgroundColor: COLORS.panel,
     borderRadius: 10,
     borderWidth: 2,
     borderColor: COLORS.border,
-    padding: 10,
-    maxHeight: 50,
     margin: 5,
+    padding: 5,
+    minHeight: 60,
   },
 
-  // map placeholder
+  // Map stying
+
   map: {
-    flex: 1,
-    borderRadius: 8,
-    overflow: "hidden",
-    backgroundColor: "#E8ECE2",
-    borderWidth: 1.5,
-    borderColor: "#B8BEB5",
+    width: '100%',
+    height: '100%',
   },
-
+ 
   // list item styling
   listItem: {
     paddingVertical: 10,

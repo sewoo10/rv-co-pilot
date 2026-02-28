@@ -1,4 +1,6 @@
-{
+import 'dotenv/config';
+
+export default{
   "expo": {
     "name": "RV-Co-Pilot",
     "slug": "RV-Co-Pilot",
@@ -19,7 +21,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.RVCoPilot"
     },
     "web": {
       "output": "static",
@@ -39,7 +42,14 @@
           }
         }
       ],
-      "expo-font"
+      "expo-font",
+      [
+        "react-native-maps",
+        {
+          "iosGoogleMapsApiKey": "process.env.GOOGLE_MAPS_KEY_IOS",
+          "androidGoogleMapsApiKey": "process.env.GOOGLE_MAPS_KEY_ANDROID",
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

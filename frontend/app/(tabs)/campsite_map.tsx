@@ -3,9 +3,41 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { styles } from "../styles"
 import { router } from 'expo-router'
-import React, { JSX } from 'react'
+import React, { useState } from 'react'
+import Map from '../../components/Map'
 
-const CampsiteMap = (): JSX.Element => {
+
+
+const CampsiteMap = () => {
+  
+  const [mapRegion, setMapRegion] = useState ({  // TODO: Update with user location. Center map on Corvallis for now
+    latitude: 44.56,
+    longitude: -123.26,
+    latitudeDelta: .1,
+    longitudeDelta: .1,
+  });
+
+  const [campsites, setCampsites] = useState([  // TODO: Pull campsites from backend. Populate test markers for now
+  {
+    id: "1",
+    latitude: 44.55,
+    longitude: -123.23,
+    title: "Test Campsite",
+  },
+  {
+    id: "2",
+    latitude: 44.53,
+    longitude: -123.22,
+    title: "Test Campsite 2",
+  },
+  {
+    id: "3",
+    latitude: 44.57,
+    longitude: -123.24,
+    title: "Test Campsite 3",
+  },
+  ]);
+
   return (
     <View style={styles.screen}>
       <View style={styles.phoneFrame}>
@@ -21,9 +53,8 @@ const CampsiteMap = (): JSX.Element => {
         {/*Body*/}
         <View style={styles.body}>
           <Text style={styles.listTitle}>Nearby Campsites</Text>
-          <View style={styles.panel}>
-            <View style={styles.map}>   {/*NEED TO ADD MAP*/}
-            </View>
+          <View style={[styles.container, {marginVertical: 10}]}>
+              <Map region={mapRegion} campsites={campsites}/>
           </View>
         </View>
 

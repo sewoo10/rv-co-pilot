@@ -2,7 +2,7 @@ import { View, Text, Pressable, TextInput } from 'react-native'
 import { styles, theme } from "../styles"
 import { router } from 'expo-router'
 import React, { useState } from 'react'
-import Spacer from '../components/Spacer'
+import Spacer from '../../components/Spacer'
 import { login } from '../api/authService'
 
 
@@ -50,7 +50,7 @@ const Login = () => {
               {/*Email Entry*/}
               <Pressable>
                   <View style={styles.loginForm}>
-                  <TextInput
+                  <TextInput style={styles.accountInput}
                       value={email}
                       onChangeText={setEmail}
                       autoCapitalize='none'
@@ -70,7 +70,7 @@ const Login = () => {
               {/*Password Entry*/}
               <Pressable >
                   <View style={styles.loginForm}>
-                  <TextInput
+                  <TextInput style={styles.accountInput}
                       value={password}
                       onChangeText={setPassword}
                       autoCapitalize='none'
