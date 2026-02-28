@@ -134,8 +134,11 @@ const Register = () => {
                     <Text style={styles.buttonText}>Home</Text>
                 </TouchableOpacity>
                 <Spacer height={15} />
-                <Text style={styles.caption}>Already have an account? Login.</Text>
-
+                <Text style={styles.caption}>Already have an account?
+                <Text>  </Text>
+                <Text style={[{color: 'blue'},{textDecorationLine: 'underline'} ]}
+                               onPress={() => router.push('/login')}>Login</Text>
+                </Text>
             </View>
         </View> 
         </View>
