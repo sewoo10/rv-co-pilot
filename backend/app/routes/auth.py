@@ -109,7 +109,7 @@ def register():
 
     token = create_token(user_id)
 
-    return jsonify({"token": token}), 201
+    return jsonify({"token": token, "userId": user_id}), 201
 
 
 @auth_bp.route("/login", methods=["POST"])
@@ -140,7 +140,7 @@ def login():
 
     token = create_token(user["user_id"])
 
-    return jsonify({"token": token}), 200
+    return jsonify({"token": token, "userId": user["user_id"]}), 200
 
 
 # ------------------------

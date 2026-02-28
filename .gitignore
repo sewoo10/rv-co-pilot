@@ -1,10 +1,13 @@
 # Backend env and virtual env
 backend/.env
 backend/.venv/
+.venv/
+venv/
 
 # Python
 __pycache__/
 *.pyc
+.pytest_cache/
 
 # OS Storage
 .DS_Store

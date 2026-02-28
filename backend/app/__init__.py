@@ -2,6 +2,12 @@
 Application factory for the Flask backend.
 """
 import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Load .env file from the backend directory
+backend_dir = Path(__file__).parent.parent
+load_dotenv(backend_dir / '.env')
 
 from flask import Flask
 from .routes.health import health_bp    # basic connection health check
