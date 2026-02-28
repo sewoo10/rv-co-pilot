@@ -7,7 +7,6 @@ import { api } from "./axios";
 
 // structures regarding trips //
 export interface Trips {
-    id: number;
     name: string;
     dateCreated: string;
     campsites: CampsiteInTrip[];
@@ -22,14 +21,12 @@ export interface CampsiteInTrip {
 
 export interface CreateEditTripRequest {
     name: string;
-    campsites: CampsiteInTrip[];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // structures regarding campsites //
 export interface Campsites {
-    id: number;
     name: string;
     latitude: number;
     longitude: number;

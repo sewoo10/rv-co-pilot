@@ -11,3 +11,5 @@ python-dotenv==1.0.1
 PyJWT==2.8.0
 werkzeug==3.1.5
 zipp==3.23.0
+pytest==7.4.4
+pytest-mock==3.12.0
