@@ -50,7 +50,7 @@ const Register = () => {
                 {/*First Name Entry*/}
                 <Pressable>
                     <View style={styles.loginForm}>
-                    <TextInput
+                    <TextInput style={styles.accountInput}
                         value={firstName}
                         onChangeText={setFirstName}
                         autoCapitalize='none'
@@ -68,7 +68,7 @@ const Register = () => {
                 {/*Last Name Entry*/}
                 <Pressable>
                     <View style={styles.loginForm}>
-                    <TextInput
+                    <TextInput style={styles.accountInput}
                         value={lastName}
                         onChangeText={setLastName}
                         autoCapitalize='none'
@@ -86,7 +86,7 @@ const Register = () => {
                 {/*Email Entry*/}
                 <Pressable>
                     <View style={styles.loginForm}>
-                    <TextInput
+                    <TextInput style={styles.accountInput}
                         value={email}
                         onChangeText={setEmail}
                         autoCapitalize='none'
@@ -105,7 +105,7 @@ const Register = () => {
                 {/*Password Entry*/}
                 <Pressable>
                     <View style={styles.loginForm}>
-                    <TextInput
+                    <TextInput style={styles.accountInput}
                         value={password}
                         onChangeText={setPassword}
                         autoCapitalize='none'

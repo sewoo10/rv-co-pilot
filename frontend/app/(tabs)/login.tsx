@@ -50,7 +50,7 @@ const Login = () => {
               {/*Email Entry*/}
               <Pressable>
                   <View style={styles.loginForm}>
-                  <TextInput
+                  <TextInput style={styles.accountInput}
                       value={email}
                       onChangeText={setEmail}
                       autoCapitalize='none'
@@ -70,7 +70,7 @@ const Login = () => {
               {/*Password Entry*/}
               <Pressable >
                   <View style={styles.loginForm}>
-                  <TextInput
+                  <TextInput style={styles.accountInput}
                       value={password}
                       onChangeText={setPassword}
                       autoCapitalize='none'

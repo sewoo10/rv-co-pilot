@@ -85,8 +85,9 @@ const EditAccount = () => {
                 {/*First Name Entry*/}
                 <View style={styles.smallPanel}>
                     <Text style={[styles.listSub, {textAlign: 'left'}]}>First Name: </Text>
+
                         <View style={styles.updateAccountForm}>
-                        <TextInput style={{flex: 1}}
+                        <TextInput style={styles.accountInput}
                             onChangeText={setFirstName}
                             autoCapitalize='none'
                             autoComplete='given-name'
@@ -97,7 +98,6 @@ const EditAccount = () => {
                             placeholderTextColor={theme.COLORS.muted}
                         />
                         </View>
-
                 </View>
 
                 {/*Last Name Entry*/}
@@ -105,7 +105,7 @@ const EditAccount = () => {
                     <Text style={[styles.listSub, {textAlign: 'left'}]}>Last Name: </Text>
 
                         <View style={styles.updateAccountForm}>
-                        <TextInput style={{flex: 1}}
+                        <TextInput style={styles.accountInput}
                             onChangeText={setLastName}
                             autoCapitalize='none'
                             autoComplete='given-name'
@@ -150,17 +150,17 @@ const EditAccount = () => {
             {/* Buttons */}
             <View style={styles.buttonRow}>
                 <Pressable style={[styles.button, styles.buttonSmall]} onPress={handleUpdateUser}>
-                    <Text style={styles.buttonText}>Submit Changes</Text>
+                    <Text style={styles.buttonTextSmall}>Submit Changes</Text>
                 </Pressable>
 
-                <Pressable style={[styles.button, styles.buttonSmall, { width: 100 }]}
+                <Pressable style={[styles.button, styles.buttonSmall]}
                     onPress={() => router.push('/account')}
                     >
-                    <Text style={styles.buttonText}>Cancel</Text>
+                    <Text style={styles.buttonTextSmall}>Cancel</Text>
                 </Pressable>
 
                 <Pressable style={[styles.button, styles.buttonSmall]} onPress={handleDeleteUser}>
-                    <Text style={styles.buttonText}>Delete Account</Text>
+                    <Text style={styles.buttonTextSmall}>Delete Account</Text>
                 </Pressable>
             </View>
             <Spacer height={15} />

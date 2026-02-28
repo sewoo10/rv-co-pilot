@@ -183,12 +183,12 @@ export const styles = StyleSheet.create({
     ...SHADOW,
   },
 
-
   buttonSmall: {
     borderRadius: 16,
     paddingVertical: 8,
     paddingHorizontal: 14,
     marginVertical: 6,
+    ...SHADOW,
   },
 
   buttonText: {
@@ -196,6 +196,14 @@ export const styles = StyleSheet.create({
     fontWeight: "800",
     fontSize: 14,
     letterSpacing: 0.6,
+    textTransform: "uppercase",
+  },
+
+  buttonTextSmall: {
+    color: COLORS.white,
+    fontWeight: "600",
+    fontSize: 10,
+    letterSpacing: 0.5,
     textTransform: "uppercase",
   },
 
@@ -245,6 +253,10 @@ export const styles = StyleSheet.create({
     marginVertical: 6,
   },
 
+  accountInput: {
+    width: 210,
+  },
+
   helperText: {
     fontSize: 12,
     color: COLORS.muted,
@@ -276,15 +288,14 @@ export const styles = StyleSheet.create({
   },
 
    smallPanel: {
-    flex: 1,
     flexDirection: 'row',
     backgroundColor: COLORS.panel,
     borderRadius: 10,
     borderWidth: 2,
     borderColor: COLORS.border,
-    padding: 10,
-    maxHeight: 50,
     margin: 5,
+    padding: 5,
+    minHeight: 60,
   },
 
   // Map stying
