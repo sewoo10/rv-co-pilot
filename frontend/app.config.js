@@ -11,7 +11,8 @@ export default{
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.RVCoPilot"
     },
     "android": {
       "adaptiveIcon": {
