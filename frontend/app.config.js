@@ -12,7 +12,10 @@ export default{
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.RVCoPilot"
+      "bundleIdentifier": "com.anonymous.RVCoPilot",
+      "infoPlist": {
+        "GMSApiKey": process.env.GOOGLE_MAPS_KEY_IOS
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -47,8 +50,8 @@ export default{
       [
         "react-native-maps",
         {
-          "iosGoogleMapsApiKey": "process.env.GOOGLE_MAPS_KEY_IOS",
-          "androidGoogleMapsApiKey": "process.env.GOOGLE_MAPS_KEY_ANDROID",
+          "iosGoogleMapsApiKey": process.env.GOOGLE_MAPS_KEY_IOS,
+          "androidGoogleMapsApiKey": process.env.GOOGLE_MAPS_KEY_ANDROID,
         }
       ]
     ],
