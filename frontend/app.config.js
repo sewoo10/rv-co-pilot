@@ -11,7 +11,10 @@ export default{
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+         "googleMapsApiKey": process.env.GOOGLE_MAPS_KEY_IOS
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -46,8 +49,8 @@ export default{
       [
         "react-native-maps",
         {
-          "iosGoogleMapsApiKey": "process.env.GOOGLE_MAPS_KEY_IOS",
-          "androidGoogleMapsApiKey": "process.env.GOOGLE_MAPS_KEY_ANDROID",
+          "iosGoogleMapsApiKey": process.env.GOOGLE_MAPS_KEY_IOS,
+          "androidGoogleMapsApiKey": process.env.GOOGLE_MAPS_KEY_ANDROID,
         }
       ]
     ],
