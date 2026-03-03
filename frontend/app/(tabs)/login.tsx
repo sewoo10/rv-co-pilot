@@ -3,7 +3,7 @@ import { styles, theme } from "../styles"
 import { router } from 'expo-router'
 import React, { useState } from 'react'
 import Spacer from '../../components/Spacer'
-import { login } from '../api/authService'
+import { login } from '../../api/authService'
 
 
 const Login = () => {

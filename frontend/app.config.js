@@ -12,11 +12,17 @@ export default{
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "config": {
-         "googleMapsApiKey": process.env.GOOGLE_MAPS_KEY_IOS
+      "bundleIdentifier": "com.anonymous.RVCoPilot",
+      "infoPlist": {
+        "GMSApiKey": process.env.GOOGLE_MAPS_KEY_IOS
       }
     },
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": process.env.GOOGLE_MAPS_KEY_ANDROID
+        }
+      },
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -45,14 +51,7 @@ export default{
           }
         }
       ],
-      "expo-font",
-      [
-        "react-native-maps",
-        {
-          "iosGoogleMapsApiKey": process.env.GOOGLE_MAPS_KEY_IOS,
-          "androidGoogleMapsApiKey": process.env.GOOGLE_MAPS_KEY_ANDROID,
-        }
-      ]
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,

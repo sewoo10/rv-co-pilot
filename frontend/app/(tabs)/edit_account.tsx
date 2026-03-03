@@ -4,9 +4,9 @@ import { View, Text, Image, Pressable, TextInput} from 'react-native'
 import { styles, theme } from "../styles"
 import { router } from 'expo-router'
 import React, {useEffect, useState} from 'react'
-import { getUser, updateUser, deleteUser } from '../api/userService'
+import { getUser, updateUser, deleteUser } from '../../api/userService'
 import Spacer from '../../components/Spacer';
-import type { GetUserResponse } from '../api/userService'   
+import type { GetUserResponse } from '../../api/userService'   
 
 
 const EditAccount = () => {
