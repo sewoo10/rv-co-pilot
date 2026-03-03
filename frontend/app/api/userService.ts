@@ -1,7 +1,8 @@
 // The userService API is responsible for handling user account related API calls, such as
 // getting user information, updating account details.
 
-import { api } from './axios';
+import { api } from './axios'
+import * as SecureStore from "expo-secure-store"
 
 
 ///// Interfaces /////
@@ -26,21 +27,22 @@ export interface GetUserResponse {
 
 
 ///// User Functions//////
+const token = await SecureStore.getItemAsync("auth_token")
 
 // Update user account details
 export const updateUser = async (userId: number, data: UpdateUserRequest) => {
-  const response = await api.put<UserResponse>(`users/${userId}`, data);
-  return response.data;
+  const response = await api.put<UserResponse>(`users/${userId}`, data)
+  return response.data
 };
 
 // Get user details
 export const getUser = async (userId: number) => {
-  const response = await api.get<GetUserResponse>(`users/${userId}`);
-  return response.data;
+  const response = await api.get<GetUserResponse>(`users/${userId}`)
+  return response.data
 };
 
 // Delete user
 export const deleteUser = async (userId: number) => {
-  const response = await api.delete<UserResponse>(`users/${userId}`); 
-  return response.data;
+  const response = await api.delete<UserResponse>(`users/${userId}`)
+  return response.data
 };

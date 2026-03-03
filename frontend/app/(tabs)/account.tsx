@@ -5,6 +5,7 @@ import { styles } from "../styles"
 import { router } from 'expo-router'
 import React, {useEffect, useState} from 'react'
 import { getUser } from '../api/userService'
+import { getCurrentUserId } from '../api/authService'
 import type { GetUserResponse } from '../api/userService'
 import * as SecureStore from "expo-secure-store"
 
@@ -17,7 +18,6 @@ const Account = () => {
     //============================
 
     const [user, setUser] = useState<GetUserResponse | null>(null)
-    const user_id = 22; // TODO: Replace hardcoded test user ID with user ID for logged-in user
 
 
     //===========================
@@ -25,10 +25,11 @@ const Account = () => {
     //===========================
     const handleGetUser = async () => {
         try {
-            const response = await getUser(user_id);  // TODO: Replace hardcoded test user ID with user ID for logged-in user
+            const user_id = await getCurrentUserId()
+            const response = await getUser(user_id)
             setUser(response);
         } catch (error) {
-            console.error("Failed to get user:", error);
+            console.error("Failed to get user:", error)
         }
     };
     useEffect(() => {handleGetUser();}, []);
@@ -80,9 +81,6 @@ const Account = () => {
                     >
                     <Text style={styles.buttonText}>Edit</Text>
                 </Pressable>
-            </View>
-
-            <View style={styles.buttonRow}>
                 <Pressable style={[styles.button, styles.buttonSmall, { width: 100 }]}
                     onPress = {handleLogout}
                     >

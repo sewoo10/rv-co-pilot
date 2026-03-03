@@ -1,4 +1,4 @@
-import { View, Text, Pressable, TextInput } from 'react-native'
+import { View, Text, Pressable, TextInput, Alert } from 'react-native'
 import { styles, theme } from "../styles"
 import { router } from 'expo-router'
 import React, { useState } from 'react'
@@ -23,6 +23,7 @@ const Login = () => {
       try {
         setError(null)
         const data = await login({ email, password })
+        Alert.alert('Login Successful!', 'Continue to home.', [{text: 'Continue'}])
         router.replace('/') 
 
       } catch (err: any) {
