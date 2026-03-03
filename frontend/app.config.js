@@ -46,14 +46,7 @@ export default{
           }
         }
       ],
-      "expo-font",
-      [
-        "react-native-maps",
-        {
-          "iosGoogleMapsApiKey": process.env.GOOGLE_MAPS_KEY_IOS,
-          "androidGoogleMapsApiKey": process.env.GOOGLE_MAPS_KEY_ANDROID,
-        }
-      ]
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,
