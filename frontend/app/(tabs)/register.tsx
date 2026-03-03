@@ -27,8 +27,9 @@ const Register = () => {
         setError(null)
         setLoading(true)
         const data = await register({ firstName, lastName, email, password })
-        Alert.alert('Registration Successful!', 'Continue to login.', [{text: 'Login'}])
-        router.replace("/login") 
+        Alert.alert('Registration Successful!', 'Continue to home.', [{text: 'Continue'}])
+        console.log(data) // TODO: Remove this line after testing complete
+        router.replace("/") 
         } catch (err: any) {
         setError("Registration failed.")
 
@@ -146,7 +147,8 @@ const Register = () => {
                 {/*Error messages and loading icon*/}
                 <Spacer height={15} />
                 {error && (<Text style={{ color: "red" }}>{error}</Text>)}
-                {loading && (<ActivityIndicator size='large' color={theme.COLORS.muted} />) }
+                {loading && (<ActivityIndicator size='large' color={theme.COLORS.muted} />)}
+                
             </View>
         </View> 
         </View>
