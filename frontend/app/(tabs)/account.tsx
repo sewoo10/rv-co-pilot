@@ -1,11 +1,13 @@
 // This page displays the information associated with the user's account.
 
-import { View, Text, Image, Pressable} from 'react-native'
+import { View, Text, Image, Pressable, Alert} from 'react-native'
 import { styles } from "../styles"
 import { router } from 'expo-router'
 import React, {useEffect, useState} from 'react'
 import { getUser } from '../api/userService'
-import type { GetUserResponse } from '../api/userService'  
+import type { GetUserResponse } from '../api/userService'
+import * as SecureStore from "expo-secure-store"
+
 
 
 const Account = () => {
@@ -15,7 +17,7 @@ const Account = () => {
     //============================
 
     const [user, setUser] = useState<GetUserResponse | null>(null)
-    const user_id = 6; // TODO: Replace hardcoded test user ID with user ID for logged-in user
+    const user_id = 22; // TODO: Replace hardcoded test user ID with user ID for logged-in user
 
 
     //===========================
@@ -31,7 +33,13 @@ const Account = () => {
     };
     useEffect(() => {handleGetUser();}, []);
 
-    
+    const handleLogout = async () => {
+        await SecureStore.deleteItemAsync("token")
+        Alert.alert('Logout Successful!', 'You have been logged out.', [{text: 'Continue'}])
+        router.replace("/")
+    };
+
+
     //===========================
     // Render Page
     //===========================
@@ -65,12 +73,20 @@ const Account = () => {
                 </View>                        
             </View>
             
-            {/* Button */}
+            {/* Buttons */}
             <View style={styles.buttonRow}>
                 <Pressable style={[styles.button, styles.buttonSmall, { width: 100 }]}
                     onPress={() => router.push('/edit_account')}
                     >
                     <Text style={styles.buttonText}>Edit</Text>
+                </Pressable>
+            </View>
+
+            <View style={styles.buttonRow}>
+                <Pressable style={[styles.button, styles.buttonSmall, { width: 100 }]}
+                    onPress = {handleLogout}
+                    >
+                    <Text style={styles.buttonText}>Logout</Text>
                 </Pressable>
             </View>
 
