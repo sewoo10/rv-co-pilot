@@ -1,17 +1,18 @@
 // this uses axios HTTP library
 
 import axios from "axios";
-import { Platform } from "react-native";
+import { Platform } from "react-native"
+import * as SecureStore from "expo-secure-store"
 
 // function that gets info of user's device
 const baseURL =
   Platform.OS === "ios"
-    ? "http://localhost:5001/api"
+    ? "http://localhost:5000/api"
     : Platform.OS === "android"
-    ? "http://10.0.2.2:5001/api"
+    ? "http://10.0.2.2:5000/api"
     : Platform .OS === "web"
-    ? "http://127.0.0.1:5001/api"
-    : "http://127.0.0.1:5001/api";
+    ? "http://127.0.0.1:5000/api"
+    : "http://127.0.0.1:5000/api";
 
 
 // function that creates a reusable Axios client
@@ -22,6 +23,20 @@ export const api = axios.create ({
         "Content-Type": "application/json",
     },
 });
+
+// Attach JWT to requests automatically
+api.interceptors.request.use(
+    async (config) => {
+        const token = await SecureStore.getItemAsync("token");
+
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
 
 // function to handle/simplify Axios error response
 // NOTE: the "pages/screen UI" will use this function to catch and display errors
