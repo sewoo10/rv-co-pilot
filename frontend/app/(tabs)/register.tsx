@@ -1,4 +1,4 @@
-import { View, Text, Pressable, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, Pressable, TextInput, TouchableOpacity, ActivityIndicator, Alert} from 'react-native'
 import { styles, theme } from "../styles"
 import { router } from 'expo-router'
 import React, {useState} from 'react'
@@ -12,6 +12,7 @@ const Register = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState<string | null>(null)
+    const [loading, setLoading] = useState(false)
 
   
     const handleRegister = async () => {
@@ -21,14 +22,18 @@ const Register = () => {
         return
         }
 
-        // Send login request and redirect to home after successful login
+        // Send register request and redirect to login page after successful registrations
         try {
         setError(null)
+        setLoading(true)
         const data = await register({ firstName, lastName, email, password })
-        router.replace("/") 
-
+        Alert.alert('Registration Successful!', 'Continue to login.', [{text: 'Login'}])
+        router.replace("/login") 
         } catch (err: any) {
         setError("Registration failed.")
+
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -120,8 +125,6 @@ const Register = () => {
                 </Pressable>
                 <Spacer height={25} />
 
-                {/*Error messages*/}
-                {error && (<Text style={{ color: "red" }}>{error}</Text>)}
 
                 {/*Buttons*/}
                 <TouchableOpacity style={[styles.button, { width: 200}]}
@@ -139,6 +142,11 @@ const Register = () => {
                 <Text style={[{color: 'blue'},{textDecorationLine: 'underline'} ]}
                                onPress={() => router.push('/login')}>Login</Text>
                 </Text>
+
+                {/*Error messages and loading icon*/}
+                <Spacer height={15} />
+                {error && (<Text style={{ color: "red" }}>{error}</Text>)}
+                {loading && (<ActivityIndicator size='large' color={theme.COLORS.muted} />) }
             </View>
         </View> 
         </View>
