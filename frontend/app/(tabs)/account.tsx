@@ -4,8 +4,8 @@ import { View, Text, Image, Pressable} from 'react-native'
 import { styles } from "../styles"
 import { router } from 'expo-router'
 import React, {useEffect, useState} from 'react'
-import { getUser } from '../api/userService'
-import type { GetUserResponse } from '../api/userService'  
+import { getUser } from '../../api/userService'
+import type { GetUserResponse } from '../../api/userService'  
 
 
 const Account = () => {
