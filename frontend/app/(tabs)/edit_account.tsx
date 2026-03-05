@@ -1,12 +1,14 @@
 // This page enables the user to edit the information associated with their account, or delete the account entirely.
 
-import { View, Text, Image, Pressable, TextInput} from 'react-native'
+import { View, Text, Image, Pressable, TextInput, Alert} from 'react-native'
 import { styles, theme } from "../styles"
 import { router } from 'expo-router'
 import React, {useEffect, useState} from 'react'
 import { getUser, updateUser, deleteUser } from '../../api/userService'
+import { getCurrentUserId } from '../../api/authService'
 import Spacer from '../../components/Spacer';
-import type { GetUserResponse } from '../../api/userService'   
+import type { GetUserResponse } from '../../api/userService'
+import * as SecureStore from "expo-secure-store"  
 
 
 const EditAccount = () => {
@@ -19,11 +21,11 @@ const EditAccount = () => {
     const [last_name, setLastName] = useState('')
     const [bio, setBio] = useState('')
     const [error, setError] = useState<string | null>(null)
-    const user_id = 6; // TODO: Replace hardcoded test user ID with user ID for logged-in user
 
     //===========================
     // Handlers
     //===========================
+
     const handleUpdateUser = async () => {
         try {
             setError(null)
@@ -33,6 +35,7 @@ const EditAccount = () => {
                 last_name: last_name || user!.last_name,
                 bio: bio || user.bio,
             };
+            const user_id = await getCurrentUserId()
             await updateUser( user_id, updatedData);
             router.replace("/account") 
         } catch (err: any) {
@@ -43,7 +46,10 @@ const EditAccount = () => {
     const handleDeleteUser = async () => {
         try {
             setError(null)
+            const user_id = await getCurrentUserId()
             await deleteUser(user_id);
+            await SecureStore.deleteItemAsync("token")
+            Alert.alert('Delete Successful!', 'Your account has been terminated.', [{text: 'Continue'}])
             router.replace("/")
         } catch (error) {
             console.error("Failed to delete user:", error);
@@ -52,6 +58,7 @@ const EditAccount = () => {
 
     const handleGetUser = async () => {
         try {
+            const user_id = await getCurrentUserId()
             const response = await getUser(user_id);  
             setUser(response);
         } catch (error) {
