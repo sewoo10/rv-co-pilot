@@ -30,7 +30,7 @@ const TripDetails = (): JSX.Element => {
         <View style={styles.centerToggleWrap}>
           <TouchableOpacity 
             style={[styles.button, styles.buttonSmall, { width: 100 }]}
-            onPress={() => router.push('edit_trip')}
+            onPress={() => router.push('/edit_trip')}
           >
             <Text style={styles.buttonText}>Edit</Text>
           </TouchableOpacity>

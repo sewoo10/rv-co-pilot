@@ -156,7 +156,7 @@ def authenticate():
     if request.endpoint in (
         "auth.login",
         "auth.register",
-        "health.health_check",
+        "health.health",
     ):
         return
 

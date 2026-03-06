@@ -9,7 +9,6 @@ from app.db.connection import get_db_connection
 
 campsites_bp = Blueprint("campsites", __name__)
 
-
 # ------------------------
 # Helper Functions
 # ------------------------
@@ -20,7 +19,6 @@ def error_response(message, status_code):
     Returns a JSON error message with HTTP status code.
     """
     return jsonify({"error": message}), status_code
-
 
 def execute_query(query, params=None, fetch_one=False, fetch_all=False):
     """
@@ -57,7 +55,6 @@ def execute_query(query, params=None, fetch_one=False, fetch_all=False):
 
     return result, rowcount, lastrowid
 
-
 def validate_campsite_payload(data):
     """
     Validates required fields for campsite creation and update.
@@ -83,7 +80,6 @@ def validate_campsite_payload(data):
 
     return all(field in data for field in required_fields)
 
-
 def has_access(campsite_id, user_id):
     """
     Checks whether a user can access a campsite.
@@ -103,7 +99,6 @@ def has_access(campsite_id, user_id):
     )
     return campsite is not None
 
-
 # ------------------------
 # Routes
 # ------------------------
@@ -111,14 +106,19 @@ def has_access(campsite_id, user_id):
 @campsites_bp.route("/campsites", methods=["GET"])
 def list_campsites():
     """
-    Retrieves all campsites visible to the current user.
+    Retrieves all campsites visible to the current user within 50 miles or all campsites if coordinates not provided.
+    Uses the Haversine formula for calculating distance
     Includes:
     - Public campsites
     - Private campsites owned by the user
     """
     user_id = g.user_id
 
-    campsites, _, _ = execute_query(
+    latitude = request.args.get("latitude", type=float)
+    longitude = request.args.get("longitude", type=float)
+    
+    if latitude is not None and longitude is not None:
+        campsites, _, _ = execute_query(
         """
         SELECT
             campsite_id,
@@ -138,17 +138,58 @@ def list_campsites():
             wifi_available,
             cell_carrier,
             cell_quality,
-            nearby_recreation
+            nearby_recreation,
+            (
+                3959 * ACOS(LEAST(1,
+                    COS(RADIANS(%s)) *
+                    COS(RADIANS(latitude)) *
+                    COS(RADIANS(longitude) - RADIANS(%s)) +
+                    SIN(RADIANS(%s)) *
+                    SIN(RADIANS(latitude))
+                ))
+            ) AS distance
         FROM campsites
-        WHERE is_public = TRUE
-           OR user_id = %s;
+        WHERE (is_public = TRUE OR user_id = %s)
+        HAVING distance <= 50
+        ORDER BY distance ASC;
         """,
-        (user_id,),
+        (latitude, longitude, latitude, user_id),
         fetch_all=True,
-    )
+            )
 
-    return jsonify(campsites)
+        return jsonify(campsites)
+    
+    else:
+        campsites, _, _ = execute_query(
+            """
+            SELECT
+                campsite_id,
+                campsite_name,
+                user_id,
+                latitude,
+                longitude,
+                campsite_type,
+                campsite_identifier,
+                is_public,
+                dump_available,
+                electric_hookup_available,
+                water_available,
+                restroom_available,
+                shower_available,
+                pets_allowed,
+                wifi_available,
+                cell_carrier,
+                cell_quality,
+                nearby_recreation
+            FROM campsites
+            WHERE is_public = TRUE
+            OR user_id = %s;
+            """,
+            (user_id,),
+            fetch_all=True,
+        )
 
+        return jsonify(campsites)    
 
 @campsites_bp.route("/campsites/<int:campsite_id>", methods=["GET"])
 def get_campsite(campsite_id):
@@ -190,7 +231,6 @@ def get_campsite(campsite_id):
         return error_response("Campsite not found", 404)
 
     return jsonify(campsite)
-
 
 @campsites_bp.route("/campsites", methods=["POST"])
 def create_campsite():
@@ -248,7 +288,6 @@ def create_campsite():
     )
 
     return jsonify({"campsite_id": campsite_id}), 201
-
 
 @campsites_bp.route("/campsites/<int:campsite_id>", methods=["PUT"])
 def update_campsite(campsite_id):
@@ -308,7 +347,6 @@ def update_campsite(campsite_id):
 
     return jsonify({"message": "Campsite updated"})
 
-
 @campsites_bp.route("/campsites/<int:campsite_id>", methods=["DELETE"])
 def delete_campsite(campsite_id):
     """
@@ -337,3 +375,5 @@ def delete_campsite(campsite_id):
     )
 
     return jsonify({"message": "Campsite deleted"})
+
+
