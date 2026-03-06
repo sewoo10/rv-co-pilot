@@ -7,61 +7,75 @@ import { api } from "./axios";
 
 // structures regarding trips //
 export interface Trips {
-    name: string;
-    dateCreated: string;
-    campsites: CampsiteInTrip[];
+    trip_id: number;
+    trip_name: string;
+    date_created: string;
 }
 
 export interface CampsiteInTrip {
-    campsiteId: number;
-    startDate: string;
-    endDate: string;
+    campsite_id: number;
+    start_date: string;
+    end_date: string;
     notes: string;
 }
 
 export interface CreateEditTripRequest {
-    name: string;
+    trip_name: string;
+}
+
+export interface CreateTripResponse {
+    trip_id: number;
+}
+
+export interface DeleteResponse {
+    message: string;
+}
+
+export interface AddTripEntryResponse {
+    trip_entry_id: number;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // structures regarding campsites //
 export interface Campsites {
-    name: string;
+    campsite_id: number;
+    campsite_name: string;
     latitude: number;
     longitude: number;
-    campsiteType: string;
-    campsiteIdentifier: string;
-    isPublic: boolean;
-    dumpAvailable: boolean;
-    electricHookup: boolean;
-    waterAvailable: boolean;
-    restroomAvailable: boolean;
-    showerAvailable: boolean;
-    petsAllowed: boolean;
-    wifiAvailable: boolean;
-    cellCarrier: string;
-    cellQuality: number;
-    nearbyRecreation: string;
+    campsite_type: string;
+    campsite_identifier: string;
+    is_public: boolean;
+    dump_available: boolean;
+    electric_hookup_available: boolean;
+    water_available: boolean;
+    restroom_available: boolean;
+    shower_available: boolean;
+    pets_allowed: boolean;
+    wifi_available: boolean;
+    cell_carrier: string;
+    cell_quality: number;
+    nearby_recreation: string;
+    distance?: number;
 }
 
 export interface CreateEditCampsiteRequest {
-    name: string;
+    campsite_name: string;
     latitude: number;
     longitude: number;
-    campsiteType: string;
-    campsiteIdentifier: string;
-    isPublic: boolean;
-    dumpAvailable: boolean;
-    electricHookup: boolean;
-    waterAvailable: boolean;
-    restroomAvailable: boolean;
-    showerAvailable: boolean;
-    petsAllowed: boolean;
-    wifiAvailable: boolean;
-    cellCarrier: string;
-    cellQuality: number;
-    nearbyRecreation: string;
+    campsite_type: string;
+    campsite_identifier: string;
+    is_public: boolean;
+    dump_available: boolean;
+    electric_hookup_available: boolean;
+    water_available: boolean;
+    restroom_available: boolean;
+    shower_available: boolean;
+    pets_allowed: boolean;
+    wifi_available: boolean;
+    cell_carrier: string;
+    cell_quality: number;
+    nearby_recreation: string;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,13 +89,13 @@ export const getTrips = async () => {
 
 // function that creates or edit trip
 export const createEditTrip = async (data: CreateEditTripRequest) => {
-    const trip = await api.post<Trips>('/trips', data);       // "trips" is endpoint
+    const trip = await api.post<CreateTripResponse>('/trips', data);      // "trips" is endpoint
     return trip.data;
 };
 
 // function to delete a trip
 export const deleteTrip = async (id: number) => {
-    const trip = await api.delete<Trips>(`/trips/${id}`);     // "trips" is endpoint
+    const trip = await api.delete<DeleteResponse>(`/trips/${id}`);
     return trip.data;
 };
 
@@ -108,7 +122,7 @@ export const createEditCampsite = async (data: CreateEditCampsiteRequest) => {
 
 // function to delete a campsite
 export const deleteCampsite = async (id: number) => {
-    const campsite = await api.delete<Campsites>(`/campsites/${id}`);     // "campsites" is endpoint
+    const campsite = await api.delete<DeleteResponse>(`/campsites/${id}`);
     return campsite.data;
 };
 
@@ -123,14 +137,28 @@ export const getCampsiteDetails = async (id: number) => {
 // functions regarding adding/removing campsites to trips
 // function that adds a campsite to a trip
 export const addCampsiteToTrip = async (tripId: number, campsiteId: number) => {  
-    const campsite = await api.post<Trips>(`/trips/${tripId}/campsites`, { campsiteId });        // "campsites" and "trips" are endpoints  
+    const campsite = await api.post<AddTripEntryResponse>(`/trips/${tripId}/entries`, { campsiteId });        // "entries" and "trips" are endpoints  
     return campsite.data;
 };
 
 // function to remove a campsite from a trip
-export const removeCampsiteFromTrip = async (tripId: number, campsiteId: number) => {  
-    const campsite = await api.delete<Trips>(`/trips/${tripId}/campsites/${campsiteId}`);        // "campsites" and "trips" are endpoints    
+export const removeCampsiteFromTrip = async (tripId: number, tripEntryId: number) => {  
+    const campsite = await api.delete<DeleteResponse>(`/trips/${tripId}/entries/${tripEntryId}`);
     return campsite.data;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// function that fetches campsites within 50 miles of a location
+export const getNearbyCampsites = async (
+    latitude: number,
+    longitude: number
+) => {
+    const campsites = await api.get<Campsites[]>(
+        `/campsites?latitude=${latitude}&longitude=${longitude}`
+    );
+
+    return campsites.data;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
