@@ -3,13 +3,19 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { styles } from "../styles"
 import { router } from 'expo-router'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Map from '../../components/Map'
+import { getNearbyCampsites } from '../../api/tripCampsiteService'
 
 
 
 const CampsiteMap = () => {
   
+  //============================
+  // State
+  //============================
+
+  // Set map centerpoint and zoom level
   const [mapRegion, setMapRegion] = useState ({  // TODO: Update with user location. Center map on Corvallis for now
     latitude: 44.56,
     longitude: -123.26,
@@ -17,27 +23,38 @@ const CampsiteMap = () => {
     longitudeDelta: .1,
   });
 
-  const [campsites, setCampsites] = useState([  // TODO: Pull campsites from backend. Populate test markers for now
-  {
-    id: "1",
-    latitude: 44.55,
-    longitude: -123.23,
-    title: "Test Campsite",
-  },
-  {
-    id: "2",
-    latitude: 44.53,
-    longitude: -123.22,
-    title: "Test Campsite 2",
-  },
-  {
-    id: "3",
-    latitude: 44.57,
-    longitude: -123.24,
-    title: "Test Campsite 3",
-  },
-  ]);
+  const [campsites, setCampsites] = useState([]);
 
+  // Retrieve nearby campsites from backend on page load
+  useEffect(() => {
+  const fetchCampsites = async () => {
+    try {
+      const data = await getNearbyCampsites(
+        mapRegion.latitude,
+        mapRegion.longitude
+      );
+
+      // Convert backend structure to map marker structuree
+      const formattedCampsite = data.map((campsite) => ({
+        id: campsite.campsite_id.toString(),
+        latitude: Number(campsite.latitude),
+        longitude: Number(campsite.longitude),
+        title: campsite.campsite_name ?? "Unnamed Campsite",
+      }));
+
+      console.log((formattedCampsite));
+      setCampsites(formattedCampsite);
+    } catch (error) {
+      console.error("Failed to fetch campsites:", error);
+    }
+  };
+
+  fetchCampsites();
+}, []);
+
+  //===========================
+  // Render Page
+  //===========================
   return (
     <View style={styles.screen}>
       <View style={styles.phoneFrame}>
