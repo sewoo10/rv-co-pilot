@@ -2,9 +2,9 @@
 
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native'
 import { styles } from "../styles"
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { Campsites, getCampsiteDetails } from '../../api/tripCampsiteService'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, use } from 'react'
 
 const Campsite =  () =>  {
   
@@ -13,25 +13,25 @@ const Campsite =  () =>  {
   //============================
 
   const [campsite, setCampsite] = useState<Campsites | null>(null)
+  const campsite_id  = Number(useLocalSearchParams().campsite_id);
 
   const convertBool = (value: number | boolean | null | undefined) => {
-  if (value === null || value === undefined) return "N/A";
-  return value ? "Yes" : "No";
-};
+    if (value === null || value === undefined) return "N/A";
+    return value ? "Yes" : "No";
+  };
 
   //===========================
   // Handlers
   //===========================
-  const handleGetCampsite = async () => {
+  const handleGetCampsite = async (campsite_id: number) => {
       try {
-          const campsite_id = 5
           const response = await getCampsiteDetails(campsite_id)
           setCampsite(response)
       } catch (error) {
           console.error("Failed to get user:", error)
       }
   };
-   useEffect(() => {handleGetCampsite();}, []);
+   useEffect(() => {handleGetCampsite(campsite_id);}, []);
 
   //===========================
   // Render Page
