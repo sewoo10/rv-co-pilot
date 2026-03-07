@@ -23,6 +23,7 @@ export default function Index(): JSX.Element {
       <Link href="/(tabs)/edit_trip">Edit Trip</Link>
       <Link href="/(tabs)/campsite_list">Campsite List</Link>
       <Link href="/(tabs)/campsite_map">Campsite Map</Link>
+      <Link href="/(tabs)/campsite">View Campsite</Link>
       <Link href="/(tabs)/edit_campsite">Edit Campsite</Link>
       <Link href="/(tabs)/add_campsite">Add Campsite</Link>
     </View>
