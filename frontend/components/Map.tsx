@@ -32,7 +32,7 @@ const Map: React.FC<Props> = ({ region, campsites }) => {
             longitude: site.longitude,
         }}
         title={site.title}
-        onCalloutPress={() => router.push(`/edit_campsite`)}
+        onCalloutPress={() => router.push(`/edit_campsite`)} {/* TODO: Add view_campiste tab and route with site id. Route to edit_campsite for the time being */}
         image={require('../assets/images/tent_icon.png')}
         />
       ))}
