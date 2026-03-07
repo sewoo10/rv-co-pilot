@@ -1,11 +1,29 @@
 // This page will allow the user to edit a campsite
 
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native'
 import { styles } from "../styles"
 import { router } from 'expo-router'
-import React, { JSX } from 'react'
+import React, { useState, useEffect } from 'react'
+import { getTrips, Trips } from '../../api/tripCampsiteService'
 
-const EditTrip = (): JSX.Element => {
+const EditTrip = () => {
+
+  //============================
+  // State
+  //============================
+
+  const [trips, setTrips] = useState<Trips[]>([])
+
+  //============================
+  // Fetch Trips
+  //============================
+
+
+  
+  //============================
+  // Render
+  //============================
+
   return (
     <View style={styles.screen}>
       <View style={styles.phoneFrame}>
