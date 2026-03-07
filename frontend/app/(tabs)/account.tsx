@@ -19,7 +19,6 @@ const Account = () => {
 
     const [user, setUser] = useState<GetUserResponse | null>(null)
 
-
     //===========================
     // Handlers
     //===========================
