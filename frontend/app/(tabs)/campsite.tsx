@@ -1,8 +1,8 @@
 // This page displays information pertaining to a selected campsite.
 
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, Image, Pressable, ScrollView } from 'react-native'
 import { styles } from "../styles"
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { Campsites, getCampsiteDetails } from '../../api/tripCampsiteService'
 import React, { useState, useEffect } from 'react'
 
@@ -13,25 +13,25 @@ const Campsite =  () =>  {
   //============================
 
   const [campsite, setCampsite] = useState<Campsites | null>(null)
+  const campsite_id  = Number(useLocalSearchParams().campsite_id);
 
   const convertBool = (value: number | boolean | null | undefined) => {
-  if (value === null || value === undefined) return "N/A";
-  return value ? "Yes" : "No";
-};
+    if (value === null || value === undefined) return "N/A";
+    return value ? "Yes" : "No";
+  };
 
   //===========================
   // Handlers
   //===========================
-  const handleGetCampsite = async () => {
+  const handleGetCampsite = async (campsite_id: number) => {
       try {
-          const campsite_id = 5
           const response = await getCampsiteDetails(campsite_id)
           setCampsite(response)
       } catch (error) {
           console.error("Failed to get user:", error)
       }
   };
-   useEffect(() => {handleGetCampsite();}, []);
+   useEffect(() => {handleGetCampsite(campsite_id);}, []);
 
   //===========================
   // Render Page
@@ -94,22 +94,19 @@ const Campsite =  () =>  {
 
         {/*Footer*/}
         <View style={styles.centerToggleWrap}>
-            <View style={[styles.button, styles.buttonSmall]}>
+          <Pressable style={[styles.button, styles.buttonSmall]} 
+                    onPress = { () => router.push({ pathname: "/edit_campsite", params: { campsite_id: campsite_id }})}>
             <Text style={styles.navBtnText}>Edit</Text>   
-            </View>
-
+          </Pressable>
         </View> 
 
         <View style={styles.footer}>
           <View style={styles.navBtn}>
             <Text style={styles.navBtnText}>Account</Text>    
           </View>
-          <TouchableOpacity
-            style={styles.navBtn}
-            onPress={() => router.push('/campsite_map')}
-            >
+          <Pressable style={styles.navBtn} onPress={() => router.push('/campsite_map')}>
               <Text style={styles.navBtnText}>Campsites</Text>
-            </TouchableOpacity>
+          </Pressable>
           </View>        
         </View>
       </View>

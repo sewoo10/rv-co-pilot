@@ -59,7 +59,27 @@ export interface Campsites {
     distance?: number;
 }
 
-export interface CreateEditCampsiteRequest {
+export interface CreateCampsiteRequest {
+    campsite_name: string;
+    latitude: number;
+    longitude: number;
+    campsite_type: string;
+    campsite_identifier: string;
+    is_public: boolean;
+    dump_available: boolean;
+    electric_hookup_available: boolean;
+    water_available: boolean;
+    restroom_available: boolean;
+    shower_available: boolean;
+    pets_allowed: boolean;
+    wifi_available: boolean;
+    cell_carrier: string;
+    cell_quality: number;
+    nearby_recreation: string;
+}
+
+export interface EditCampsiteRequest {
+    campsite_id: number;
     campsite_name: string;
     latitude: number;
     longitude: number;
@@ -115,8 +135,14 @@ export const getCampsites = async () => {
 };
 
 // function to create or edit a campsite
-export const createEditCampsite = async (data: CreateEditCampsiteRequest) => {
+export const createCampsite = async (data: CreateCampsiteRequest) => {
     const campsite = await api.post<Campsites>('/campsites', data);       // "campsites" is endpoint
+    return campsite.data;
+};
+
+// function to create or edit a campsite
+export const editCampsite = async (data: EditCampsiteRequest) => {
+    const campsite = await api.put<Campsites>(`/campsites/${data.campsite_id}`, data);  // "campsites" is endpoint
     return campsite.data;
 }; 
 

@@ -233,6 +233,14 @@ export const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
 
+    updateCampsiteForm: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    marginHorizontal: 10,
+  },
+
   label: {
     fontSize: 15,
     fontWeight: '400',
@@ -255,6 +263,10 @@ export const styles = StyleSheet.create({
 
   accountInput: {
     width: 210,
+  },
+
+  campsiteInput: {
+    width: 190,
   },
 
   helperText: {

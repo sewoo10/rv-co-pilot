@@ -6,7 +6,7 @@ import { router } from 'expo-router'
 import React, {useEffect, useState} from 'react'
 import { getUser, updateUser, deleteUser } from '../../api/userService'
 import { getCurrentUserId } from '../../api/authService'
-import Spacer from '../../components/Spacer';
+import Spacer from '../../components/Spacer'
 import type { GetUserResponse } from '../../api/userService'
 import * as SecureStore from "expo-secure-store"  
 

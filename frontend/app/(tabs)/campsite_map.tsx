@@ -1,6 +1,6 @@
 // This page will show the nearby campsites in a map format
 
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Image, Pressable } from 'react-native'
 import { styles } from "../styles"
 import { router } from 'expo-router'
 import React, { useState, useEffect } from 'react'
@@ -16,11 +16,11 @@ const CampsiteMap = () => {
   //============================
 
   // Set map centerpoint and zoom level
-  const [mapRegion, setMapRegion] = useState ({  // TODO: Update with user location. Center map on Corvallis for now
-    latitude: 44.56,
-    longitude: -123.26,
-    latitudeDelta: .1,
-    longitudeDelta: .1,
+  const [mapRegion, setMapRegion] = useState ({
+    latitude: 44.25,
+    longitude: -123.5,
+    latitudeDelta: 1.75,
+    longitudeDelta: 1.75,
   });
 
   const [campsites, setCampsites] = useState([]);
@@ -41,16 +41,14 @@ const CampsiteMap = () => {
         longitude: Number(campsite.longitude),
         title: campsite.campsite_name ?? "Unnamed Campsite",
       }));
-
-      console.log((formattedCampsite));
       setCampsites(formattedCampsite);
+      
     } catch (error) {
       console.error("Failed to fetch campsites:", error);
     }
   };
 
-  fetchCampsites();
-}, []);
+  fetchCampsites();}, []);
 
   //===========================
   // Render Page
@@ -75,26 +73,22 @@ const CampsiteMap = () => {
           </View>
         </View>
 
-        {/*Footer*/}
         <View style={styles.centerToggleWrap}>
-            <TouchableOpacity 
-              style={[styles.button, styles.buttonSmall, { width: 90 }]}
+          <Pressable style={[styles.button, styles.buttonSmall, { width: 90 }]}
               onPress={() => router.push('/campsite_list')}
             >
-              <Text style={styles.buttonText}>List</Text>
-            </TouchableOpacity>
+            <Text style={styles.buttonText}>List</Text>
+          </Pressable>
         </View> 
 
+        {/*Footer*/}
         <View style={styles.footer}>
-          <View style={styles.navBtn}>
-            <Text style={styles.navBtnText}>Account</Text>    {/*NEED TO LINK ACCOUNT PAGE ONCE IT IS MADE*/}
-          </View>
-          <TouchableOpacity
-            style={styles.navBtn}
-            onPress={() => router.push('/trip')}  
-            >
+          <Pressable style={styles.navBtn} onPress={() => router.push('/account')}>
+            <Text style={styles.navBtnText}>Account</Text>
+          </Pressable>
+          <Pressable style={styles.navBtn} onPress={() => router.push('/trip')} >
               <Text style={styles.navBtnText}>Trips</Text>
-            </TouchableOpacity>
+          </Pressable>
           </View>        
         </View>
       </View>
