@@ -14,13 +14,14 @@ export interface Trips {
 
 export interface CampsiteInTrip {
     campsite_id: number;
-    start_date: string;
+    begin_date: string;
     end_date: string;
     notes: string;
 }
 
 export interface CreateEditTripRequest {
-    trip_name: string;
+  trip_id?: number
+  trip_name: string
 }
 
 export interface CreateTripResponse {
@@ -89,8 +90,14 @@ export const getTrips = async () => {
 
 // function that creates or edit trip
 export const createEditTrip = async (data: CreateEditTripRequest) => {
-    const trip = await api.post<CreateTripResponse>('/trips', data);      // "trips" is endpoint
-    return trip.data;
+
+  if (data.trip_id) {
+    const trip = await api.put(`/trips/${data.trip_id}`, data)
+    return trip.data
+  }
+
+  const trip = await api.post('/trips', data)
+  return trip.data
 };
 
 // function to delete a trip
@@ -104,6 +111,27 @@ export const getTripDetails = async (id: number) => {
     const trip = await api.get<Trips>(`/trips/${id}`);        // "trips" is endpoint
     return trip.data;
 };
+
+// function that adds an entry to a trip
+export const addTripEntry = async (tripId: number, data: any) => {
+  const res = await api.post(`/trips/${tripId}/entries`, data)
+  return res.data
+}
+
+// function that gets all entries for a trip
+export const getTripEntries = async (tripId: number) => {
+  const res = await api.get(`/trips/${tripId}/entries`)
+  return res.data
+}
+
+// function that deletes an entry from a trip
+export const deleteTripEntry = async (
+  tripId: number,
+  entryId: number
+) => {
+  const res = await api.delete(`/trips/${tripId}/entries/${entryId}`)
+  return res.data
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

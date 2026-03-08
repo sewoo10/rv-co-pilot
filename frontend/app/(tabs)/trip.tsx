@@ -46,13 +46,15 @@ const Trip = () => {
             <Text style={styles.headerTitle}>RV COPILOT</Text>
           </View>
         </View>
-#
+
         {/*Body*/}
         <View style={styles.body}>
           <Text style={styles.listTitle}>Trips</Text>
 
           <ScrollView>
-            {trips.length == 0 ? (
+            {loading ? (
+              <Text>Loading trips...</Text>
+            ) : trips.length === 0 ? (
               <Text>No trips created yet.</Text>
             ) : (
               trips.map((trip) => (
@@ -68,7 +70,7 @@ const Trip = () => {
           </ScrollView>
           
         </View>
-#
+
         {/*Footer*/}
         <View style={styles.centerToggleWrap}>
           <TouchableOpacity 
