@@ -33,7 +33,7 @@ const Map: React.FC<Props> = ({ region, campsites }) => {
         }}
         image={require('../assets/images/tent_icon.png')}
         >
-        <Callout onPress={() => router.push({ pathname: "/campsite", params: { campsite_id: site.id },})}>
+        <Callout onPress={() => router.push({ pathname: "/campsite", params: { campsite_id: site.id }})}>
             <View style={{ padding: 5 }}>
               <Text>{site.title}</Text>
             </View>
