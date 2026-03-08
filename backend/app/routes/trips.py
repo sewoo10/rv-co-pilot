@@ -141,18 +141,28 @@ def update_trip(trip_id):
     if not validate_trip_payload(data):
         return error_response("Missing required fields", 400)
 
-    _, rowcount, _ = execute_query(
+    trip, _, _ = execute_query(
+        """
+        SELECT trip_id
+        FROM trips
+        WHERE trip_id = %s
+        AND user_id = %s;
+        """,
+        (trip_id, user_id),
+        fetch_one=True,
+    )
+
+    if not trip:
+        return error_response("Trip not found", 404)
+
+    execute_query(
         """
         UPDATE trips
         SET trip_name = %s
-        WHERE trip_id = %s
-          AND user_id = %s;
+        WHERE trip_id = %s;
         """,
-        (data["trip_name"], trip_id, user_id),
+        (data["trip_name"], trip_id),
     )
-
-    if rowcount == 0:
-        return error_response("Trip not found", 404)
 
     return jsonify({"message": "Trip updated"})
 
