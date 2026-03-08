@@ -1,28 +1,62 @@
 // This page allows the user to edit a trip
 
-import { View, Text, Image, TouchableOpacity, TextInput, ScrollView } from 'react-native'
+import { View, Text, Image, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native'
 import { styles } from "../styles"
 import { router, useLocalSearchParams } from 'expo-router'
 import React, { useState, useEffect } from 'react'
 import { Picker } from '@react-native-picker/picker'
 import {
   getTripDetails,
-  createEditTrip,
+  editTrip,
   deleteTrip,
   getTripEntries,
-  addTripEntry,
-  deleteTripEntry,
-  getCampsites
+  getCampsites,
+  addCampsiteToTrip,
+  removeCampsiteFromTrip,
+  updateTripEntry
 } from '../../api/tripCampsiteService'
 
-  //============================
-  // Helper Functions
-  //============================
+//============================
+// Helper Functions
+//============================
+
+const formatDateForDisplay = (date: string) => {
+  if (!date) return ""
+
+  const parsed = new Date(date)
+  const month = String(parsed.getMonth() + 1).padStart(2, "0")
+  const day = String(parsed.getDate()).padStart(2, "0")
+  const year = parsed.getFullYear()
+
+  return `${month}-${day}-${year}`
+}
 
 const formatDateForAPI = (date: string) => {
   if (!date) return ""
-  const [month, day, year] = date.split("-")
-  return `${year}-${month}-${day}`
+
+  // if already YYYY-MM-DD
+  if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return date
+  }
+
+  // if MM-DD-YYYY
+  if (/^\d{2}-\d{2}-\d{4}$/.test(date)) {
+    const [month, day, year] = date.split("-")
+    return `${year}-${month}-${day}`
+  }
+
+  // if "Wed Jan 01 2025"
+  const parsed = new Date(date)
+
+  if (!isNaN(parsed.getTime())) {
+    const year = parsed.getFullYear()
+    const month = String(parsed.getMonth() + 1).padStart(2, "0")
+    const day = String(parsed.getDate()).padStart(2, "0")
+
+    return `${year}-${month}-${day}`
+  }
+
+  return date
 }
 
 const EditTrip = () => {
@@ -34,11 +68,11 @@ const EditTrip = () => {
   const { id } = useLocalSearchParams<{ id: string }>()
   const [tripName, setTripName] = useState("")
   const [entries, setEntries] = useState<any[]>([])
-  const [campsites, setCampsites] = useState([])
+  const [campsites, setCampsites] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
   //============================
-  // Load trip + entries
+  // Load trip and entries
   //============================
 
   useEffect(() => {
@@ -51,7 +85,13 @@ const EditTrip = () => {
         setTripName(trip.trip_name)
 
         const entryData = await getTripEntries(Number(id))
-        setEntries(entryData)
+        setEntries(
+          (entryData || []).map((entry: any) => ({
+            ...entry,
+            begin_date: formatDateForDisplay(entry.begin_date),
+            end_date: formatDateForDisplay(entry.end_date)
+          }))
+        )
 
         const campsiteData = await getCampsites()
         setCampsites(campsiteData)
@@ -64,7 +104,6 @@ const EditTrip = () => {
     }
 
     loadData()
-
   }, [id])
 
   //============================
@@ -80,14 +119,21 @@ const EditTrip = () => {
   const addEntry = () => {
     setEntries([
       ...entries,
-      { trip_entry_id: null, campsite_id: "", begin_date: "", end_date: "", notes: "" }
+      {
+        trip_entry_id: null,
+        campsite_id: "",
+        begin_date: "",
+        end_date: "",
+        notes: ""
+      }
     ])
   }
 
   const removeEntry = async (index: number) => {
     const entry = entries[index]
+
     if (entry.trip_entry_id) {
-      await deleteTripEntry(Number(id), entry.trip_entry_id)
+      await removeCampsiteFromTrip(Number(id), entry.trip_entry_id)
     }
 
     const updated = [...entries]
@@ -100,7 +146,6 @@ const EditTrip = () => {
   //============================
 
   const handleConfirm = async () => {
-
     try {
 
       if (!tripName.trim()) {
@@ -109,47 +154,106 @@ const EditTrip = () => {
       }
 
       // update trip name
-      await createEditTrip({
-        trip_id: Number(id),
+      await editTrip(Number(id), {
         trip_name: tripName
       })
 
-      // rebuild entries
+      // process campsite entries
       for (const entry of entries) {
 
         if (!entry.campsite_id) continue
+
+        // prevent invalid requests
+        if (!entry.begin_date || !entry.end_date) {
+          Alert.alert("Invalid entry", "Begin and end dates are required for each campsite.")
+          return
+        }
 
         const payload = {
           campsite_id: Number(entry.campsite_id),
           begin_date: formatDateForAPI(entry.begin_date),
           end_date: formatDateForAPI(entry.end_date),
-          notes: entry.notes
+          notes: entry.notes || ""
         }
 
-        // if entry existed, remove it first
+        // update existing entry
         if (entry.trip_entry_id) {
-          await deleteTripEntry(Number(id), entry.trip_entry_id)
+          await updateTripEntry(
+            Number(id),
+            entry.trip_entry_id,
+            payload
+          )
         }
 
-        // add the updated entry
-        await addTripEntry(Number(id), payload)
-
+        // create new entry
+        else {
+          await addCampsiteToTrip(
+            Number(id),
+            payload
+          )
+        }
       }
 
-      router.push(`/trip_details?id=${id}`)
+      Alert.alert(
+        "Edit Successful!",
+        "Your trip update is complete.",
+        [
+          {
+            text: "Continue",
+            onPress: () =>
+              router.replace({
+                pathname: "/trip_details",
+                params: { id: id }
+              })
+          }
+        ]
+      )
 
     } catch (error) {
       console.error("Failed to update trip:", error)
     }
-
   }
+
   const handleDelete = async () => {
     try {
-      await deleteTrip(Number(id))
-      router.push('/trip')
+      Alert.alert(
+        "Are you sure you want to delete this trip?",
+        "This action cannot be undone.",
+        [
+          { text: "Cancel", style: "cancel" },
+          {
+            text: "Delete",
+            style: "destructive",
+            onPress: async () => {
+              await deleteTrip(Number(id))
+              router.replace('/trip')
+            }
+          }
+        ]
+      )
+
     } catch (error) {
       console.error("Failed to delete trip:", error)
     }
+  }
+
+  const handleCancel = () => {
+    Alert.alert(
+      "Cancel Edits",
+      "Are you sure you want to discard your changes?",
+      [
+        { text: "Keep Editing", style: "cancel" },
+        {
+          text: "Discard",
+          style: "destructive",
+          onPress: () =>
+            router.replace({
+              pathname: "/trip_details",
+              params: { id: id }
+            })
+        }
+      ]
+    )
   }
 
   //============================
@@ -251,16 +355,28 @@ const EditTrip = () => {
         </View>
 
         {/*Footer*/}
-        <View style={styles.centerToggleWrap}>
+        <View
+          style={[
+            styles.centerToggleWrap,
+            { flexDirection: "row", justifyContent: "space-between", gap: 10 }
+          ]}
+        >
           <TouchableOpacity
-            style={[styles.button, styles.buttonSmall]}
+            style={[styles.button, styles.buttonSmall, { flex: 1 }]}
+            onPress={handleCancel}
+          >
+            <Text style={styles.buttonText}>Cancel</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.button, styles.buttonSmall, { flex: 1 }]}
             onPress={handleConfirm}
           >
             <Text style={styles.buttonText}>Confirm</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.button, styles.buttonSmall]}
+            style={[styles.button, styles.buttonSmall, { flex: 1 }]}
             onPress={handleDelete}
           >
             <Text style={styles.buttonText}>Delete</Text>

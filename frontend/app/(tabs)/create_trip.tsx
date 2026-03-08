@@ -4,7 +4,7 @@ import { View, Text, Image, TouchableOpacity, TextInput, ScrollView } from 'reac
 import { styles } from "../styles"
 import { router } from 'expo-router'
 import React, { useState, useEffect } from 'react'
-import { createEditTrip, addTripEntry } from '../../api/tripCampsiteService'
+import { createTrip, addCampsiteToTrip } from '../../api/tripCampsiteService'
 import { Picker } from '@react-native-picker/picker'
 import { getCampsites } from '../../api/tripCampsiteService'
 
@@ -12,13 +12,13 @@ import { getCampsites } from '../../api/tripCampsiteService'
   // Helper Functions
   //============================
 
+const CreateTrip = () => {
+
 const formatDateForAPI = (date: string) => {
   if (!date) return ""
   const [month, day, year] = date.split("-")
   return `${year}-${month}-${day}`
 }
-
-const CreateTrip = () => {
 
   //============================
   // State
@@ -59,8 +59,11 @@ const CreateTrip = () => {
 
   const handleCreate = async () => {
     try {
-      if (!tripName.trim()) return
-      const trip = await createEditTrip({
+      if (!tripName.trim()) {
+        alert("Trip name required")
+        return
+      }
+      const trip = await createTrip({
         trip_name: tripName
       })
       const tripId = trip.trip_id
@@ -68,7 +71,7 @@ const CreateTrip = () => {
       // add campsite entries
       for (const entry of entries) {
         if (!entry.campsite_id) continue
-        await addTripEntry(tripId, {
+        await addCampsiteToTrip(tripId, {
           campsite_id: Number(entry.campsite_id),
           begin_date: formatDateForAPI(entry.begin_date),
           end_date: formatDateForAPI(entry.end_date),

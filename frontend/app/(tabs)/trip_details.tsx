@@ -8,6 +8,21 @@ import { getTripDetails } from '../../api/tripCampsiteService'
 import { api } from '../../api/axios'
 import { deleteTrip } from '../../api/tripCampsiteService'
 
+//============================
+// Helper Functions
+//============================
+
+const formatDateForDisplay = (date: string) => {
+  if (!date) return ""
+
+  const parsed = new Date(date)
+  const month = String(parsed.getMonth() + 1).padStart(2, "0")
+  const day = String(parsed.getDate()).padStart(2, "0")
+  const year = parsed.getFullYear()
+
+  return `${month}-${day}-${year}`
+}
+
 const TripDetails = () => {
 
   //============================
@@ -35,7 +50,13 @@ const TripDetails = () => {
         setTrip(tripData)
 
         const entriesRes = await api.get(`/trips/${id}/entries`)
-        setEntries(entriesRes.data)
+        setEntries(
+          (entriesRes.data || []).map((entry: any) => ({
+            ...entry,
+            begin_date: formatDateForDisplay(entry.begin_date),
+            end_date: formatDateForDisplay(entry.end_date)
+          }))
+        )
 
       } catch (error) {
         console.error("Failed to load trip:", error)
