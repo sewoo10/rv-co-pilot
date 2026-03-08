@@ -1,11 +1,99 @@
-// This page will allow the user to edit a campsite
+// This page displays information pertaining to a selected campsite.
 
-import { View, Text, Image, TouchableOpacity } from 'react-native'
-import { styles } from "../styles"
-import { router } from 'expo-router'
-import React, { JSX } from 'react'
+import { View, Text, Image, Pressable, ScrollView, TextInput, Switch, Alert } from 'react-native'
+import { styles, theme } from "../styles"
+import { router, useLocalSearchParams } from 'expo-router'
+import { Campsites, getCampsiteDetails, editCampsite } from '../../api/tripCampsiteService'
+import React, { useState, useEffect } from 'react'
+import Spacer from '../../components/Spacer';
 
-const EditCampsite = (): JSX.Element => {
+
+const EditCampsite =  () =>  {
+  
+  //============================
+  // State
+  //============================
+
+  const [campsite, setCampsite] = useState<Campsites | null>(null)
+  const campsite_id  = Number(useLocalSearchParams().campsite_id)
+  const [campsite_name, setCampsiteName] = useState('')
+  const [campsite_identifier, setIdentifier] = useState("")
+  const [campsite_type, setCampsiteType] = useState('')
+  const [cell_carrier, setCellCarrier] = useState('')
+  const [cell_quality, setCellQuality] = useState('')
+  const [nearby_recreation, setNearbyRecreation] = useState('')
+  const [is_public, setIsPublic] = useState(false)
+  const [dump_available, setDumpAvailable] = useState(false)
+  const [electric_hookup_available, setElectricHookup] = useState(false)
+  const [water_available, setWaterAvailable] = useState(false)
+  const [restroom_available, setRestroomAvailable] = useState(false)
+  const [shower_available, setShowerAvailable] = useState(false)
+  const [pets_allowed, setPetsAllowed] = useState(false)
+  const [wifi_available, setWifiAvailable] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+
+  //===========================
+  // Handlers
+  //===========================
+  const handleGetCampsite = async (campsite_id: number) => {
+    try {
+      const response = await getCampsiteDetails(campsite_id)
+      setCampsite(response)
+      setIsPublic(Boolean(response.is_public))
+      setDumpAvailable(Boolean(response.dump_available))
+      setElectricHookup(Boolean(response.electric_hookup_available))
+      setWaterAvailable(Boolean(response.water_available))
+      setRestroomAvailable(Boolean(response.restroom_available))
+      setShowerAvailable(Boolean(response.shower_available))
+      setPetsAllowed(Boolean(response.pets_allowed))
+      setWifiAvailable(Boolean(response.wifi_available))
+
+    } catch (error) {
+     console.error("Failed to get user:", error)
+    }
+  };
+   useEffect(() => {handleGetCampsite(campsite_id);}, []);
+
+  
+  const handleUpdateCampsite = async () => {
+    try {
+
+      if (!campsite) return
+
+      const updatedData = {
+        campsite_id,
+        campsite_name: campsite_name || campsite!.campsite_name,
+        latitude: campsite.latitude,
+        longitude: campsite.longitude,
+        campsite_type: campsite_type || campsite!.campsite_type,
+        campsite_identifier,
+        is_public,
+        dump_available,
+        electric_hookup_available,
+        water_available,
+        restroom_available,
+        shower_available,
+        pets_allowed,
+        wifi_available,
+        cell_carrier: cell_carrier || campsite.cell_carrier,
+        cell_quality: Number(cell_quality) || campsite.cell_quality,
+        nearby_recreation: nearby_recreation || campsite.nearby_recreation
+      }
+
+      await editCampsite(updatedData)
+      Alert.alert('Edit Successful!', 'Your update is complete.', [{text: 'Continue'}])
+      router.replace({ pathname: "/campsite", params: { campsite_id: campsite_id }})
+
+    } catch (err) {
+      setError("Failed to update campsite.")
+    }
+  }
+
+  //===========================
+  // Render Page
+  //===========================
+  
   return (
     <View style={styles.screen}>
       <View style={styles.phoneFrame}>
@@ -18,38 +106,171 @@ const EditCampsite = (): JSX.Element => {
           </View>
         </View>
 
-        {/*Body*/}
-        <View style={styles.body}>
-          <Text style={styles.listTitle}>Edit Campsite</Text>
-          <View style={styles.panel}>
-            <Text style={styles.listSub}>Campsite Details Here</Text>   {/*NEED TO ADD WAY TO LIST CAMPSITE DETAILS*/}
+          {/*Body*/}
+          <View style={styles.body}>
+              <Text style={styles.h2}>Campsite Details</Text>
+              <ScrollView>
+              
+                {/*Campsite Name Entry*/}
+                <View style={styles.smallPanel}>
+                  <Text style={[styles.listSub, {textAlign: 'left'}]}>Campsite Name: </Text>
+                  <View style={styles.updateCampsiteForm}>
+                    <TextInput style={styles.campsiteInput}
+                        onChangeText={setCampsiteName}
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        returnKeyType='next'
+                        placeholder={campsite?.campsite_name}
+                        placeholderTextColor={theme.COLORS.muted}
+                    />
+                  </View>
+                </View>
+
+                {/* Type */}
+                <View style={styles.smallPanel}>
+                  <Text style={styles.listSub}>Campsite Type:   </Text>
+                  <View style={styles.updateCampsiteForm}>
+                    <TextInput style={styles.campsiteInput}
+                      onChangeText={setCampsiteType}
+                      autoCapitalize='none'
+                      autoCorrect={false}
+                      returnKeyType='next'
+                      placeholder={campsite?.campsite_type || "N/A"}
+                      placeholderTextColor={theme.COLORS.muted}
+                    /> 
+                  </View>
+                </View>
+
+                {/* Public */}
+                <View style={styles.smallPanel}>
+                  <Text style={[styles.listSub, {textAlign: 'left'}]}>Public: </Text>
+                  <Switch style = {{marginLeft: 20}} value={is_public} onValueChange={setIsPublic}/>
+                </View>
+
+                {/* Dumpt */}
+                <View style={styles.smallPanel}>
+                  <Text style={styles.listSub}>Dump Facilities: </Text>
+                  <Switch style = {{marginLeft: 20}} value={dump_available} onValueChange={setDumpAvailable}/>
+                </View>
+
+                {/* Electric */}
+                <View style={styles.smallPanel}>
+                  <Text style={styles.listSub}>Electric Hookup: </Text>
+                  <Switch style = {{marginLeft: 20}} value={electric_hookup_available} onValueChange={setElectricHookup}/>
+                </View>
+
+                {/* Water */}
+                <View style={styles.smallPanel}>
+                  <Text style={styles.listSub}>Water Available:</Text>
+                  <Switch style = {{marginLeft: 20}} value={water_available} onValueChange={setWaterAvailable}/>
+                </View>
+
+                {/* Restrooms */}
+                <View style={styles.smallPanel}>
+                  <Text style={styles.listSub}>Restrooms: </Text>
+                  <Switch style = {{marginLeft: 20}} value={restroom_available} onValueChange={setRestroomAvailable}/>
+                </View>
+
+                {/* Shower */}
+                <View style={styles.smallPanel}>
+                  <Text style={styles.listSub}>Showers: </Text>
+                  <Switch style = {{marginLeft: 20}} value={shower_available} onValueChange={setShowerAvailable}/>
+                </View>
+
+                {/* Pets */}
+                <View style={styles.smallPanel}>
+                  <Text style={styles.listSub}>Pets Allowed: </Text>
+                  <Switch style = {{marginLeft: 20}} value={pets_allowed} onValueChange={setPetsAllowed}/>
+                </View>
+
+                {/* Wifi */}
+                <View style={styles.smallPanel}>
+                  <Text style={styles.listSub}>WiFi: </Text>
+                  <Switch style = {{marginLeft: 20}} value={wifi_available} onValueChange={setWifiAvailable}/>
+                </View>
+
+                {/* Cell Carrier */}
+                <View style={styles.smallPanel}>
+                  <Text style={styles.listSub}>Cell Carrier:           </Text>
+                  <View style={styles.updateCampsiteForm}>
+                    <TextInput style={styles.campsiteInput}
+                      onChangeText={setCellCarrier}
+                      autoCapitalize='none'
+                      autoCorrect={false}
+                      returnKeyType='next'
+                      placeholder={campsite?.cell_carrier || "N/A"}
+                      placeholderTextColor={theme.COLORS.muted}
+                    />
+                  </View>
+                </View>
+
+                {/* Cell Quality */}
+                <View style={styles.smallPanel}>
+                  <Text style={styles.listSub}>Cell Quality (0-5):  </Text>
+                  <View style={styles.updateCampsiteForm}>
+                    <TextInput style={styles.campsiteInput}
+                      onChangeText={setCellQuality}
+                      keyboardType="numeric"
+                      returnKeyType='next'
+                      placeholder={String(campsite?.cell_quality ?? "N/A")}
+                      placeholderTextColor={theme.COLORS.muted}
+                    />
+                  </View>
+                </View>
+
+                  {/* Recreation */}
+                  <View style={[styles.panel, {flexDirection: 'row' }, {margin: 5}]}>
+                    <Text style={[styles.listSub, {textAlign: 'left'}]}>Nearby Recreation: </Text>
+                    <View style={[styles.updateAccountForm, {flex: 1}]}>
+                        <TextInput style={{flex: 1} }
+                            onChangeText={setNearbyRecreation}
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                            returnKeyType='next'
+                            placeholder={campsite?.nearby_recreation || "N/A"}
+                            placeholderTextColor={theme.COLORS.muted}
+                            textAlignVertical="top"
+                            multiline
+                            numberOfLines={5}
+                        />
+                    </View>
+                </View>
+
+              </ScrollView>                   
           </View>
-        </View>
+
+          {/* Error message area */}
+          {error && <Text style={{color:"red",textAlign:"center"}}>{error}</Text>}
+
+          {/* Buttons */}
+          <View style={styles.buttonRow}>
+              <Pressable style={[styles.button, styles.buttonSmall]} onPress={handleUpdateCampsite}>
+                  <Text style={styles.buttonTextSmall}>Submit Changes</Text>
+              </Pressable>
+
+              <Pressable style={[styles.button, styles.buttonSmall]}
+                  onPress={() => router.push({ pathname: "/campsite", params: { campsite_id: campsite_id }})}
+                  >
+                  <Text style={styles.buttonTextSmall}>Cancel</Text>
+              </Pressable>
+          </View>
+          <Spacer height={15} />
+
 
         {/*Footer*/}
-        <View style={styles.centerToggleWrap}>
-            <View style={[styles.button, styles.buttonSmall]}>
-            <Text style={styles.navBtnText}>Confirm</Text>    {/*NEED TO ADD FUNCTION*/}
-            </View>
-            <View style={[styles.button, styles.buttonSmall]}>
-            <Text style={styles.navBtnText}>Delete</Text>   {/*NEED TO ADD FUNCTION*/}
-            </View>
-        </View> 
 
         <View style={styles.footer}>
           <View style={styles.navBtn}>
-            <Text style={styles.navBtnText}>Account</Text>    {/*NEED TO LINK ACCOUNT PAGE ONCE IT IS MADE*/}
+            <Text style={styles.navBtnText}>Account</Text>    
           </View>
-          <TouchableOpacity
-            style={styles.navBtn}
-            onPress={() => router.push('/campsite_map')}  
-            >
-              <Text style={styles.navBtnText}>Campsites</Text>
-            </TouchableOpacity>
-          </View>        
+          <Pressable style={styles.navBtn} onPress={() => router.push('/campsite_map')}>
+            <Text style={styles.navBtnText}>Campsites</Text>
+          </Pressable>
+          </View>      
         </View>
+
       </View>
+
   )
 }
-
 export default EditCampsite
