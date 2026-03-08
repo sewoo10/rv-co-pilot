@@ -47,8 +47,12 @@ const CampsiteMap = () => {
       console.error("Failed to fetch campsites:", error);
     }
   };
-
   fetchCampsites();}, []);
+
+  //===========================
+  // Handlers
+  //===========================
+
 
   //===========================
   // Render Page
@@ -75,8 +79,8 @@ const CampsiteMap = () => {
 
         <View style={styles.centerToggleWrap}>
           <Pressable style={[styles.button, styles.buttonSmall, { width: 90 }]}
-              onPress={() => router.push('/campsite_list')}
-            >
+              onPress={() => router.push({ pathname: "/campsite_list", 
+              params: { latitude: mapRegion.latitude, longitude: mapRegion.longitude }})}>
             <Text style={styles.buttonText}>List</Text>
           </Pressable>
         </View> 

@@ -310,6 +310,14 @@ export const styles = StyleSheet.create({
     minHeight: 60,
   },
 
+    campsitePanel: {
+    flex: 1,
+    backgroundColor: COLORS.bg,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: COLORS.border,
+    padding: 10,
+  },
   // Map stying
 
   map: {
