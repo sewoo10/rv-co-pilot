@@ -1,11 +1,40 @@
-// This page will show the user's trips in a list view where they can click on a trip to access trip_details page
+// This page shows the user's trips in a list view where they can click on a trip to access trip_details page
 
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native'
 import { styles } from "../styles"
 import { router } from 'expo-router'
-import React, { JSX } from 'react'
+import React, { useState, useEffect } from 'react'
+import { getTrips, Trips } from '../../api/tripCampsiteService'
 
-const Trip = (): JSX.Element => {
+const Trip = () => {
+
+  //============================
+  // State
+  //============================
+
+  const [trips, setTrips] = useState<Trips[]>([])
+  const [loading, setLoading] = useState(true)
+
+  //============================
+  // Fetch Trips
+  //============================
+
+  useEffect(() => {
+    const fetchTrips = async () => {
+      try {
+        const data = await getTrips()
+        setTrips(data)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchTrips()
+  }, [])
+
+  //============================
+  // Render
+  //============================
+
   return (
     <View style={styles.screen}>
       <View style={styles.phoneFrame}>
@@ -21,9 +50,25 @@ const Trip = (): JSX.Element => {
         {/*Body*/}
         <View style={styles.body}>
           <Text style={styles.listTitle}>Trips</Text>
-          <View style={styles.panel}>
-            <Text style={styles.listSub}>Trip A</Text>          {/*NEED TO ADD WAY TO LIST USER'S SAVED TRIPS*/}
-          </View>
+
+          <ScrollView>
+            {loading ? (
+              <Text>Loading trips...</Text>
+            ) : trips.length === 0 ? (
+              <Text>No trips created yet.</Text>
+            ) : (
+              trips.map((trip) => (
+                <TouchableOpacity
+                  key={trip.trip_id}
+                  style={styles.panel}
+                  onPress={() => router.push(`/trip_details?id=${trip.trip_id}`)}
+                >
+                  <Text style={styles.listSub}>{trip.trip_name}</Text>
+                </TouchableOpacity>
+              ))
+            )}
+          </ScrollView>
+          
         </View>
 
         {/*Footer*/}
@@ -37,9 +82,12 @@ const Trip = (): JSX.Element => {
         </View> 
 
         <View style={styles.footer}>
-          <View style={styles.navBtn}>
-            <Text style={styles.navBtnText}>Account</Text>     {/*NEED TO LINK ACCOUNT PAGE ONCE IT IS MADE*/}
-          </View>
+          <TouchableOpacity
+            style={styles.navBtn}
+            onPress={() => router.push('/account')}
+          >
+            <Text style={styles.navBtnText}>Account</Text>  
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.navBtn}
             onPress={() => router.push('/campsite_map')}
