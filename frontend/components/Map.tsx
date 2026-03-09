@@ -16,6 +16,11 @@ type Props = {
   campsites: Campsite[];
 };
 
+const handleLongPress = (event: any) => {
+  const { latitude, longitude } = event.nativeEvent.coordinate;
+  router.push({ pathname: "/add_campsite", params: { latitude, longitude }});
+};
+
 const Map: React.FC<Props> = ({ region, campsites }) => {
   return (
     
@@ -23,6 +28,7 @@ const Map: React.FC<Props> = ({ region, campsites }) => {
       style={styles.map}
       provider={PROVIDER_GOOGLE}
       initialRegion={region}
+      onLongPress={handleLongPress}
     >
       {campsites.map(site => (
         <Marker
