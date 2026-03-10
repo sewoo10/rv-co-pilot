@@ -86,8 +86,8 @@ const CampsiteMap = () => {
 
         // Defaults to Corvallis if user location unavailable
       } catch (error) {
-        console.error("Failed to load map data:", error)
-        setLocationReady;
+        console.warn("Current location unavailable. Loading map at default location.")
+        setLocationReady(true);
       }
     };
 
