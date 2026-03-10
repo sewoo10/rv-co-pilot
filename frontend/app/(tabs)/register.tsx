@@ -28,7 +28,6 @@ const Register = () => {
         setLoading(true)
         const data = await register({ firstName, lastName, email, password })
         Alert.alert('Registration Successful!', 'Continue to home.', [{text: 'Continue'}])
-        console.log(data)
         router.replace("/campsite_map") 
         } catch (err: any) {
         setError("Registration failed.")

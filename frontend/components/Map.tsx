@@ -11,17 +11,21 @@ type Campsite = {
   title: string;
 };
 
+// Props passed from map page including current region and campsite markers
 type Props = {
   region: Region;
   campsites: Campsite[];
+  onRegionChange: (region: Region) => void;
 };
 
+// // Navigate to Add Campsite screen when the map is long-pressed
 const handleLongPress = (event: any) => {
   const { latitude, longitude } = event.nativeEvent.coordinate;
   router.push({ pathname: "/add_campsite", params: { latitude, longitude }});
 };
 
-const Map: React.FC<Props> = ({ region, campsites }) => {
+// Store marker references so callouts can be opened programmatically
+const Map: React.FC<Props> = ({ region, campsites, onRegionChange }) => {
   const markerRefs = useRef<{ [key: string]: any }>({});
 
   const handleMarkerPress = (campsiteId: string) => {
@@ -31,12 +35,14 @@ const Map: React.FC<Props> = ({ region, campsites }) => {
   };
 
   return (
-    
     <MapView
       style={styles.map}
       provider={PROVIDER_GOOGLE}
       initialRegion={region}
+      showsUserLocation={true}
+      showsMyLocationButton={true}
       onLongPress={handleLongPress}
+      onRegionChangeComplete={onRegionChange}
     >
       {campsites.map(site => (
         <Marker

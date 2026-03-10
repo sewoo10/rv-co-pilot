@@ -1,4 +1,4 @@
-// This page will show the nearby campsites in a list format
+// This page shows the nearby campsites in a list format
 
 import { View, Text, Image, Pressable, ScrollView } from 'react-native'
 import { styles } from "../styles"
@@ -12,28 +12,46 @@ const CampsiteList = () => {
   //============================
   // State
   //============================
+  
   const [campsites, setCampsites] = useState([]);
-  const latitude = Number(useLocalSearchParams().latitude)
-  const longitude = Number(useLocalSearchParams().longitude)
+  const [showAll, setShowAll] = useState(false);
 
-  // Retrieve nearby campsites from backend on page load
+  const params = useLocalSearchParams()
+  const latitude = Number(params.latitude)
+  const longitude = Number(params.longitude)
+
+  // Retrieve all or nearby campsites from backend on page load
   useEffect(() => {
-  const fetchCampsites = async () => {
-    try {
-      const data = await getNearbyCampsites( latitude, longitude );
-      setCampsites(data);
-    } catch (error) {
-      console.error("Failed to fetch campsites:", error);
-    }
-  };
-  fetchCampsites();}, []);
+    const fetchCampsites = async () => {
+      try {
+
+        let data;
+
+        if (showAll || latitude === null || longitude === null) {
+          // Request all campsites (no coordinates)
+          data = await getNearbyCampsites();
+        } else {
+          // Request nearby campsites
+          data = await getNearbyCampsites(latitude, longitude);
+        }
+
+        setCampsites(data);
+
+      } catch (error) {
+        console.error("Failed to fetch campsites:", error);
+      }
+    };
+
+    fetchCampsites();
+
+}, [showAll, latitude, longitude]);
 
   //============================
   // Render Page
   //============================
 
   return (
-        <View style={styles.screen}>
+      <View style={styles.screen}>
         <View style={styles.phoneFrame}>
             
             {/*Header*/}
@@ -46,7 +64,24 @@ const CampsiteList = () => {
 
         {/*Body*/}
         <View style={styles.body}>
-          <Text style={styles.listTitle}>Nearby Campsites</Text>
+          <Text style={styles.listTitle}>
+            {showAll ? "All Campsites" : "Nearby Campsites"}
+          </Text>
+
+          <Pressable
+            style={[styles.button, { marginVertical: 5 }]}
+            onPress={() => setShowAll(!showAll)}
+          >
+            <Text style={styles.buttonText}>
+              {showAll ? "Show Nearby Campsites" : "Show All Campsites"}
+            </Text>
+          </Pressable>
+
+          {campsites.length === 0 && (
+            <Text style={{ textAlign: "center", marginTop: 10 }}>
+              No campsites found in this area.
+            </Text>
+          )}
           <ScrollView style={[styles.panel, {marginVertical: 10}]}>
             {campsites.map((campsite) => (
               <Pressable key={campsite.campsite_id} style={[styles.campsitePanel, {marginVertical: 4}]}
