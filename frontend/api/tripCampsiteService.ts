@@ -207,15 +207,15 @@ export const updateTripEntry = async (tripId: number, entryId: number, data: any
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // function that fetches campsites within 50 miles of a location
-export const getNearbyCampsites = async (
-    latitude: number,
-    longitude: number
-) => {
-    const campsites = await api.get<Campsites[]>(
-        `/campsites?latitude=${latitude}&longitude=${longitude}`
-    );
+export const getNearbyCampsites = async (latitude?: number, longitude?: number) => {
+  let url = "/campsites";
 
-    return campsites.data;
+  if (latitude !== undefined && longitude !== undefined) {
+    url += `?latitude=${latitude}&longitude=${longitude}`;
+  }
+
+  const response = await api.get(url);
+  return response.data;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
