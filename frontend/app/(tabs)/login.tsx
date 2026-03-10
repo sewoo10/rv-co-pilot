@@ -19,12 +19,12 @@ const Login = () => {
         return
       }
 
-      // Send login request and redirect to home after successful login
+      // Send login request and redirect to map after successful login
       try {
         setError(null)
         const data = await login({ email, password })
         Alert.alert('Login Successful!', 'Continue to home.', [{text: 'Continue'}])
-        router.replace('/') 
+        router.replace('/campsite_map') 
 
       } catch (err: any) {
         setError("Invalid email or password")
@@ -95,12 +95,18 @@ const Login = () => {
                                           onPress={handleLogin}>
                   <Text style={styles.buttonText}>Login</Text>
               </Pressable>
-              <Spacer height={25} />
-              <Pressable style={[styles.button, {alignItems: 'center', width: 100}]}
-                                          onPress={() => router.push('/')}>
-                  <Text style={styles.buttonText}>Home</Text>
-              </Pressable>
-          </View>
+              <Spacer height={15} />
+              <Text style={styles.caption}>
+                Don't have an account?
+                <Text>  </Text>
+                <Text
+                  style={[{color: 'blue'}, {textDecorationLine: 'underline'}]}
+                  onPress={() => router.push('/(tabs)/register')}
+                >
+                  Sign up
+                </Text>
+              </Text>
+              </View>              
         </View> 
       </View>
     )

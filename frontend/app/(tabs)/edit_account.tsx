@@ -43,18 +43,40 @@ const EditAccount = () => {
         }
     }
 
-    const handleDeleteUser = async () => {
-        try {
-            setError(null)
-            const user_id = await getCurrentUserId()
-            await deleteUser(user_id);
-            await SecureStore.deleteItemAsync("token")
-            Alert.alert('Delete Successful!', 'Your account has been terminated.', [{text: 'Continue'}])
-            router.replace("/")
-        } catch (error) {
-            console.error("Failed to delete user:", error);
-        }
-    }
+const handleDeleteUser = async () => {
+
+    Alert.alert(
+        "Delete Account",
+        "Are you sure you want to permanently delete your account? This action cannot be undone.",
+        [
+            {
+                text: "Cancel",
+                style: "cancel"
+            },
+            {
+                text: "Delete",
+                style: "destructive",
+                onPress: async () => {
+                    try {
+                        setError(null)
+                        const user_id = await getCurrentUserId()
+                        await deleteUser(user_id)
+                        await SecureStore.deleteItemAsync("token")
+
+                        Alert.alert(
+                            "Account Deleted",
+                            "Your account has been terminated.",
+                            [{ text: "Continue" }]
+                        )
+                        router.replace("/")
+                    } catch (error) {
+                        console.error("Failed to delete user:", error)
+                    }
+                }
+            }
+        ]
+    )
+}
 
     const handleGetUser = async () => {
         try {
@@ -175,13 +197,20 @@ const EditAccount = () => {
 
             {/*Footer*/}
             <View style={styles.footer}>
-                <Pressable style={styles.navBtn} onPress={() => router.push('/')}>
-                    <Text style={styles.navBtnText}>Home</Text>
+                <Pressable
+                    style={styles.navBtn}
+                    onPress={() => router.push('/campsite_map')}
+                >
+                    <Text style={styles.navBtnText}>Map</Text>
                 </Pressable>
-                <Pressable style={styles.navBtn} onPress={() => router.push('/trip')}>
+
+                <Pressable
+                    style={styles.navBtn}
+                    onPress={() => router.push('/trip')}
+                >
                     <Text style={styles.navBtnText}>Trips</Text>
                 </Pressable>
-            </View>        
+            </View>       
         </View>
         </View>
     )

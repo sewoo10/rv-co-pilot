@@ -3,7 +3,7 @@
 import { View, Text, Image, Pressable, ScrollView, TextInput, Switch, Alert } from 'react-native'
 import { styles, theme } from "../styles"
 import { router, useLocalSearchParams } from 'expo-router'
-import { Campsites, getCampsiteDetails, editCampsite } from '../../api/tripCampsiteService'
+import { Campsites, getCampsiteDetails, editCampsite, deleteCampsite } from '../../api/tripCampsiteService'
 import React, { useState, useEffect } from 'react'
 import Spacer from '../../components/Spacer';
 
@@ -90,21 +90,42 @@ const EditCampsite =  () =>  {
     }
   }
 
+  const handleDeleteCampsite = async () => {
+  Alert.alert(
+    "Delete Campsite",
+    "Are you sure you want to delete this campsite?",
+    [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            await deleteCampsite(campsite_id)
+            router.replace('/campsite_map')
+          } catch (err) {
+            setError("Failed to delete campsite.")
+          }
+        }
+      }
+    ]
+  )
+}
   //===========================
   // Render Page
   //===========================
   
   return (
-    <View style={styles.screen}>
-      <View style={styles.phoneFrame}>
-        
-        {/*Header*/}
-        <View style={styles.header}>
-          <Image source={require("../../assets/images/logo.png")} style={styles.headerLeftIcon}/>
-          <View style={styles.headerTitleWrap}>
-            <Text style={styles.headerTitle}>RV COPILOT</Text>
-          </View>
-        </View>
+        <View style={styles.screen}>
+        <View style={styles.phoneFrame}>
+            
+            {/*Header*/}
+            <View style={styles.header}>
+            <Image source={require("../../assets/images/logo.png")} style={styles.headerLeftIcon}/>
+            <View style={styles.headerTitleWrap}>
+                <Text style={styles.appTitleSmall}>RV COPILOT</Text>
+            </View>
+            </View>
 
           {/*Body*/}
           <View style={styles.body}>
@@ -244,29 +265,61 @@ const EditCampsite =  () =>  {
 
           {/* Buttons */}
           <View style={styles.buttonRow}>
-              <Pressable style={[styles.button, styles.buttonSmall]} onPress={handleUpdateCampsite}>
-                  <Text style={styles.buttonTextSmall}>Submit Changes</Text>
-              </Pressable>
 
-              <Pressable style={[styles.button, styles.buttonSmall]}
-                  onPress={() => router.push({ pathname: "/campsite", params: { campsite_id: campsite_id }})}
-                  >
-                  <Text style={styles.buttonTextSmall}>Cancel</Text>
-              </Pressable>
+            <Pressable
+              style={[styles.button, styles.buttonSmall]}
+              onPress={handleUpdateCampsite}
+            >
+              <Text style={styles.buttonTextSmall}>Submit Changes</Text>
+            </Pressable>
+
+            <Pressable
+              style={[styles.button, styles.buttonSmall]}
+              onPress={() =>
+                router.push({
+                  pathname: "/campsite",
+                  params: { campsite_id: campsite_id }
+                })
+              }
+            >
+              <Text style={styles.buttonTextSmall}>Cancel</Text>
+            </Pressable>
+
+            <Pressable
+              style={[styles.button, styles.buttonSmall]}
+              onPress={handleDeleteCampsite}
+            >
+              <Text style={styles.buttonTextSmall}>Delete</Text>
+            </Pressable>
+
           </View>
-          <Spacer height={15} />
 
 
         {/*Footer*/}
-
         <View style={styles.footer}>
-          <View style={styles.navBtn}>
-            <Text style={styles.navBtnText}>Account</Text>    
-          </View>
-          <Pressable style={styles.navBtn} onPress={() => router.push('/campsite_map')}>
-            <Text style={styles.navBtnText}>Campsites</Text>
+
+          <Pressable
+            style={styles.navBtn}
+            onPress={() => router.push('/account')}
+          >
+            <Text style={styles.navBtnText}>Account</Text>
           </Pressable>
-          </View>      
+
+          <Pressable
+            style={styles.navBtn}
+            onPress={() => router.push('/campsite_map')}
+          >
+            <Text style={styles.navBtnText}>Map</Text>
+          </Pressable>
+
+          <Pressable
+            style={styles.navBtn}
+            onPress={() => router.push('/trip')}
+          >
+            <Text style={styles.navBtnText}>Trips</Text>
+          </Pressable>
+
+        </View>     
         </View>
 
       </View>
