@@ -101,10 +101,15 @@ def register():
 
     _, user_id = execute_query(
         """
-        INSERT INTO users (email, password_hash)
-        VALUES (%s, %s)
+        INSERT INTO users (email, password_hash, first_name, last_name)
+        VALUES (%s, %s, %s, %s)
         """,
-        (data["email"], password_hash)
+        (
+            data["email"],
+            password_hash,
+            data.get("firstName"),
+            data.get("lastName")
+        )
     )
 
     token = create_token(user_id)
