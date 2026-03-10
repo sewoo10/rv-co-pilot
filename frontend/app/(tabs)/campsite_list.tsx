@@ -33,16 +33,16 @@ const CampsiteList = () => {
   //============================
 
   return (
-    <View style={styles.screen}>
-      <View style={styles.phoneFrame}>
-        
-        {/*Header*/}
-        <View style={styles.header}>
-          <Image source={require("../../assets/images/logo.png")} style={styles.headerLeftIcon}/>
-          <View style={styles.headerTitleWrap}>
-            <Text style={styles.headerTitle}>RV COPILOT</Text>
-          </View>
-        </View>
+        <View style={styles.screen}>
+        <View style={styles.phoneFrame}>
+            
+            {/*Header*/}
+            <View style={styles.header}>
+            <Image source={require("../../assets/images/logo.png")} style={styles.headerLeftIcon}/>
+            <View style={styles.headerTitleWrap}>
+                <Text style={styles.appTitleSmall}>RV COPILOT</Text>
+            </View>
+            </View>
 
         {/*Body*/}
         <View style={styles.body}>
@@ -58,23 +58,31 @@ const CampsiteList = () => {
           </ScrollView>
         </View>
 
-        {/*Footer*/}
-        <View style={styles.centerToggleWrap}>
-          <Pressable style={[styles.button, styles.buttonSmall, { width: 90 }]}
-            onPress={() => router.push('/campsite_map')}>
-            <Text style={styles.buttonText}>Map</Text>
-          </Pressable>
-        </View>         
-
+        {/*Footer*/}      
         <View style={styles.footer}>
-          <Pressable style={styles.navBtn} onPress={() => router.push('/account')}>
+
+          <Pressable
+            style={styles.navBtn}
+            onPress={() => router.push('/account')}
+          >
             <Text style={styles.navBtnText}>Account</Text>
           </Pressable>
 
-          <Pressable style={styles.navBtn} onPress={() => router.push('/trip')}>
+          <Pressable
+            style={styles.navBtn}
+            onPress={() => router.push('/campsite_map')}
+          >
+            <Text style={styles.navBtnText}>Map</Text>
+          </Pressable>
+
+          <Pressable
+            style={styles.navBtn}
+            onPress={() => router.push('/trip')}
+          >
             <Text style={styles.navBtnText}>Trips</Text>
           </Pressable>
-        </View> 
+
+        </View>
               
         </View>
     </View>

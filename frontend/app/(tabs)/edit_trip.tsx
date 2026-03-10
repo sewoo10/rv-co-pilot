@@ -1,6 +1,6 @@
 // This page allows the user to edit a trip
 
-import { View, Text, Image, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native'
+import { View, Text, Image, TouchableOpacity, TextInput, ScrollView, Alert, Pressable } from 'react-native'
 import { styles } from "../styles"
 import { router, useLocalSearchParams } from 'expo-router'
 import React, { useState, useEffect } from 'react'
@@ -261,16 +261,16 @@ const EditTrip = () => {
   //============================
 
   return (
-    <View style={styles.screen}>
-      <View style={styles.phoneFrame}>
-        
-        {/*Header*/}
-        <View style={styles.header}>
-          <Image source={require("../../assets/images/logo.png")} style={styles.headerLeftIcon}/>
-          <View style={styles.headerTitleWrap}>
-            <Text style={styles.headerTitle}>RV COPILOT</Text>
-          </View>
-        </View>
+        <View style={styles.screen}>
+        <View style={styles.phoneFrame}>
+            
+            {/*Header*/}
+            <View style={styles.header}>
+            <Image source={require("../../assets/images/logo.png")} style={styles.headerLeftIcon}/>
+            <View style={styles.headerTitleWrap}>
+                <Text style={styles.appTitleSmall}>RV COPILOT</Text>
+            </View>
+            </View>
 
         {/*Body*/}
         <View style={styles.body}>
@@ -355,48 +355,54 @@ const EditTrip = () => {
         </View>
 
         {/*Footer*/}
-        <View
-          style={[
-            styles.centerToggleWrap,
-            { flexDirection: "row", justifyContent: "space-between", gap: 10 }
-          ]}
-        >
-          <TouchableOpacity
-            style={[styles.button, styles.buttonSmall, { flex: 1 }]}
-            onPress={handleCancel}
-          >
-            <Text style={styles.buttonText}>Cancel</Text>
-          </TouchableOpacity>
+        <View style={[styles.buttonRow, { justifyContent: "center", gap: 10, flexWrap: "wrap" }]}>
 
           <TouchableOpacity
-            style={[styles.button, styles.buttonSmall, { flex: 1 }]}
+            style={[styles.button, styles.buttonSmall]}
             onPress={handleConfirm}
           >
-            <Text style={styles.buttonText}>Confirm</Text>
+            <Text style={styles.buttonTextSmall}>Submit Changes</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.button, styles.buttonSmall, { flex: 1 }]}
+            style={[styles.button, styles.buttonSmall]}
+            onPress={handleCancel}
+          >
+            <Text style={styles.buttonTextSmall}>Cancel</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.button, styles.buttonSmall]}
             onPress={handleDelete}
           >
-            <Text style={styles.buttonText}>Delete</Text>
+            <Text style={styles.buttonTextSmall}>Delete</Text>
           </TouchableOpacity>
+
         </View>
 
+
         <View style={styles.footer}>
-          <TouchableOpacity
+          <Pressable
             style={styles.navBtn}
             onPress={() => router.push('/account')}
           >
             <Text style={styles.navBtnText}>Account</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+          </Pressable>
+
+          <Pressable
             style={styles.navBtn}
-            onPress={() => router.push('/trip')}  
-            >
-              <Text style={styles.navBtnText}>Trips</Text>
-            </TouchableOpacity>
-          </View>        
+            onPress={() => router.push('/campsite_map')}
+          >
+            <Text style={styles.navBtnText}>Map</Text>
+          </Pressable>
+
+          <Pressable
+            style={styles.navBtn}
+            onPress={() => router.push('/trip')}
+          >
+            <Text style={styles.navBtnText}>Trips</Text>
+          </Pressable>
+        </View>           
         </View>
       </View>
   )

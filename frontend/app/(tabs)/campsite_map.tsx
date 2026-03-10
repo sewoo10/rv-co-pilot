@@ -58,30 +58,33 @@ const CampsiteMap = () => {
   // Render Page
   //===========================
   return (
-    <View style={styles.screen}>
-      <View style={styles.phoneFrame}>
-        
-        {/*Header*/}
-        <View style={styles.header}>
-          <Image source={require("../../assets/images/logo.png")} style={styles.headerLeftIcon}/>
-          <View style={styles.headerTitleWrap}>
-            <Text style={styles.headerTitle}>RV COPILOT</Text>
-          </View>
-        </View>
+        <View style={styles.screen}>
+        <View style={styles.phoneFrame}>
+            
+            {/*Header*/}
+            <View style={styles.header}>
+            <Image source={require("../../assets/images/logo.png")} style={styles.headerLeftIcon}/>
+            <View style={styles.headerTitleWrap}>
+                <Text style={styles.appTitleSmall}>RV COPILOT</Text>
+            </View>
+            </View>
 
         {/*Body*/}
         <View style={styles.body}>
           <Text style={styles.listTitle}>Nearby Campsites</Text>
+          <Text style={{ textAlign: "center", marginTop: 5 }}>
+            Press and hold on the map to add a campsite
+          </Text>
           <View style={[styles.container, {marginVertical: 10}]}>
               <Map region={mapRegion} campsites={campsites}/>
           </View>
         </View>
 
         <View style={styles.centerToggleWrap}>
-          <Pressable style={[styles.button, styles.buttonSmall, { width: 90 }]}
+          <Pressable style={[styles.button, styles.buttonSmall, { width: 120 }]}
               onPress={() => router.push({ pathname: "/campsite_list", 
               params: { latitude: mapRegion.latitude, longitude: mapRegion.longitude }})}>
-            <Text style={styles.buttonText}>List</Text>
+            <Text style={styles.buttonText}>Campsites</Text>
           </Pressable>
         </View> 
 

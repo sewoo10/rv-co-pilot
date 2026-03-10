@@ -109,16 +109,16 @@ const formatDateForAPI = (date: string) => {
   //============================
 
   return (
-    <View style={styles.screen}>
-      <View style={styles.phoneFrame}>
-        
-        {/*Header*/}
-        <View style={styles.header}>
-          <Image source={require("../../assets/images/logo.png")} style={styles.headerLeftIcon}/>
-          <View style={styles.headerTitleWrap}>
-            <Text style={styles.headerTitle}>RV COPILOT</Text>
-          </View>
-        </View>
+        <View style={styles.screen}>
+        <View style={styles.phoneFrame}>
+            
+            {/*Header*/}
+            <View style={styles.header}>
+            <Image source={require("../../assets/images/logo.png")} style={styles.headerLeftIcon}/>
+            <View style={styles.headerTitleWrap}>
+                <Text style={styles.appTitleSmall}>RV COPILOT</Text>
+            </View>
+            </View>
 
         {/*Body*/}
         <View style={styles.body}>

@@ -22,14 +22,14 @@ const Register = () => {
         return
         }
 
-        // Send register request and redirect to login page after successful registrations
+        // Send register request and redirect to map after successful registrations
         try {
         setError(null)
         setLoading(true)
         const data = await register({ firstName, lastName, email, password })
         Alert.alert('Registration Successful!', 'Continue to home.', [{text: 'Continue'}])
-        console.log(data) // TODO: Remove this line after testing complete
-        router.replace("/") 
+        console.log(data)
+        router.replace("/campsite_map") 
         } catch (err: any) {
         setError("Registration failed.")
 
@@ -133,10 +133,6 @@ const Register = () => {
                     <Text style={styles.buttonText}>Register</Text>
                 </TouchableOpacity>
             
-                <TouchableOpacity style={[styles.button, { width: 100, marginVertical: 0,}]}
-                                            onPress={() => router.push('/')}>
-                    <Text style={styles.buttonText}>Home</Text>
-                </TouchableOpacity>
                 <Spacer height={15} />
                 <Text style={styles.caption}>Already have an account?
                 <Text>  </Text>

@@ -89,13 +89,20 @@ const Account = () => {
 
             {/*Footer*/}
             <View style={styles.footer}>
-                <Pressable style={styles.navBtn} onPress={() => router.push('/')}>
-                    <Text style={styles.navBtnText}>Home</Text>
+                <Pressable
+                    style={styles.navBtn}
+                    onPress={() => router.push('/campsite_map')}
+                >
+                    <Text style={styles.navBtnText}>Map</Text>
                 </Pressable>
-                <Pressable style={styles.navBtn} onPress={() => router.push('/trip')}>
+
+                <Pressable
+                    style={styles.navBtn}
+                    onPress={() => router.push('/trip')}
+                >
                     <Text style={styles.navBtnText}>Trips</Text>
                 </Pressable>
-            </View>        
+            </View>     
         </View>
         </View>
     )
