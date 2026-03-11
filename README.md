@@ -1,133 +1,108 @@
-# RV-Co-Pilot
-CS467 Winter 2026 Capstone
-
-Frontend Progress Report #2
-
+# RV Co-Pilot
+### CS 467 Winter 2026
+### Eric Azevedo, Matthew Baker, Samantha Wooten
 
 
-## Backend Progress Report #2
+## Overview
+RV Co-Pilot is an iOS and Android mobile application designed to help campers plan trips, discover campsites, and manage their travel itineraries. It was built using React Native with Expo for the frontend and Python with Flask REST API and MySQL database for the backend.
 
-### API Endpoints
+## Installation
 
-All routes are prefixed with: 
+To run the project locally, both the backend server and the frontend Expo application must be installed and running. The following instructions describe how to install the required components and run the application locally.
 
-```
-/api
-```
+### Prerequisites
 
----
+Before installing the project, ensure the following software is installed on your system:
+- Node.js (version 20 or newer)
+- npm (included with Node.js)
+- Python 3
+- MySQL (8.0 or higher)
+- Pip (Python package manager)
+- Android Studio (for Android emulator support)
+- Xcode (for iOS simulator support)
+- Expo CLI
+- Expo Go mobile app installed on your emulator
 
-#### Users
-GET /api/users – List all users
-POST /api/users – Create a new user
-GET /api/users/<user_id> – Retrieve a single user
-PUT /api/users/<user_id> – Update a user
-DELETE /api/users/<user_id> – Delete a user
+These tools are required to clone the repository, run the backend server, and launch the mobile application.
 
----
-
-#### Campsites
-GET /api/campsites – List campsites (public + user-owned)
-POST /api/campsites – Create a campsite
-GET /api/campsites/<campsite_id> – Retrieve a single campsite
-PUT /api/campsites/<campsite_id> – Update a campsite
-DELETE /api/campsites/<campsite_id> – Delete a campsite (creator only)
-
----
-
-#### Trips
-GET /api/trips – List trips for current user
-POST /api/trips – Create a trip
-GET /api/trips/<trip_id> – Retrieve a trip
-PUT /api/trips/<trip_id> – Update a trip
-DELETE /api/trips/<trip_id> – Delete a trip
-
----
-
-#### Trip Entries
-GET /api/trips/<trip_id>/entries – List trip entries
-POST /api/trips/<trip_id>/entries – Add campsite to trip
-PUT /api/trips/<trip_id>/entries/<trip_entry_id> – Update trip entry
-DELETE /api/trips/<trip_id>/entries/<trip_entry_id> – Remove trip entry
-
----
-
-### Testing (curl Examples)
-
-To test locally:
-
-1. Run the backend:
-
-```
-flask run
-```
-
-2. In a second terminal, execute the following:
-
-#### Create a user:
-```bash
-curl -X POST http://127.0.0.1:5000/api/users \
--H "Content-Type: application/json" \
--d '{
-  "email": "test@example.com",
-  "password_hash": "hashedpassword",
-  "first_name": "Sam",
-  "last_name": "Tester",
-  "bio": "Testing backend"
-}'
-```
+To ensure the backend works properly, you will need to connect to the OSU Campus VPN. This ensures you can access the OSU MySQL database. 
 
 
-#### Create a trip:
-```bash
-curl -X POST http://127.0.0.1:5000/api/trips \
--H "Content-Type: application/json" \
--d '{
-  "trip_name": "My First Trip"
-}'
-```
 
-#### Create a campsite:
-```bash
-curl -X POST http://127.0.0.1:5000/api/campsites \
--H "Content-Type: application/json" \
--d '{
-  "campsite_name": "Test Campsite",
-  "latitude": 44.123456,
-  "longitude": -121.654321,
-  "campsite_type": "Public Land",
-  "is_public": true,
-  "dump_available": false,
-  "electric_hookup_available": true,
-  "water_available": true,
-  "restroom_available": true,
-  "shower_available": false,
-  "pets_allowed": true,
-  "wifi_available": false
-}'
-```
+### Clone the Repository
+- Open a terminal and choose your desired project directory.
+- Clone the repository from GitHub using the terminal:
+  - git clone https://github.com/sewoo10/rv-co-pilot.git 
+  - Navigate into the project directory:
+  - cd rv-co-pilot
 
-#### Add a campsite to a trip:
-```bash
-curl -X POST http://127.0.0.1:5000/api/trips/1/entries \
--H "Content-Type: application/json" \
--d '{
-  "campsite_id": 1,
-  "begin_date": "2026-06-01",
-  "end_date": "2026-06-05",
-  "notes": "First stop"
-}'
-```
 
----
+### Installing/Starting the Backend
+- Navigate to the backend directory:
+- cd backend
+- Create a Python virtual environment:
+- python -m venv .venv
+- Note: a Python virtual environment is used to isolate the backend dependencies from the system Python installation. This ensures the correct package versions are installed and prevents conflicts with other Python projects on the tester’s machine.
+- Activate the virtual environment.
+  - for Windows:
+    - .\.venv\scripts\activate
+  - For macOS/Linux:
+    - source .venv/bin/activate
+- Install the backend dependencies:
+  - pip install -r requirements.txt
+- Create an environment configuration file named:
+  - .env
+- Inside the .env file, add the required database login and authentication info provided seperately
 
-### Authentication Note
+- Start the backend server:
+  - python wsgi.py
+- The backend API will start on http://localhost 
+- Leave this terminal window running.
 
-Authentication is currently mocked using a temporary "before_request" function in "__init__.py" that sets:
+### Installing the Frontend
+- Open a new terminal and navigate to the frontend directory:
+  - cd frontend
+- Install the frontend dependencies:
+  - npm install
+- Create an environment configuration file named:
+  - .env
+- Add Google Maps API keys provided seperately to .env for map features
+- Leave this terminal window open and proceed to the next steps
 
-```
-g.user_id = 1
-```
+### Running the Application
+**For iOS simulator (Mac only, via Expo Go):**
+- Ensure Xcode is installed
+- Install Expo Go in the iOS simulator
+- Launch the iOS simulator from Xcode
+- In the frontend terminal, launch Expo Go by running:
+  - npx expo start
+  - Wait for the app to bundle
+  - Press i
+- The application will open in the simulator
 
-This allows full testing of authorization logic (ownership checks, trip restrictions, campsite visibility rules) without implementing full authentication yet.
-Proper authentication will be implemented in Progress Report #3.
+
+**For Android emulator (Android only, via Expo go):**
+- Ensure an Android emulator is installed and running
+- Install Expo Go in the android emulator
+- In the frontend terminal, launch Expo Go by running:
+  - npx expo start
+  - Wait for the app to bundle
+  -  Press a
+- The application will open in the emulator
+
+
+## Application Use
+
+### Getting Started: 
+Register to create an account, or login to the app if you have previously registered. The email address is not verified at this point in development so entering any email address simply to test the app is acceptable. There is no lost password functionality to the app yet so if you forget your password you will have to create a new account. The first name, last name, and bio associated with an account can be edited by navigating to the account page from the bottom menu and clicking the edit button.
+
+### Viewing Campsites:
+Campsites can be viewed visually on the interactive map view or in a textual format on the campsite list view. At this point, the majority of campsites loaded into the app database are in the Corvallis, OR area. When the map page opens, the user is prompted to allow location access. After approval, the map centers on the user’s current location and displays a blue location dot. If location access is not approved, the map will default to the Corvallis, OR area. Campsites within approximately 50 miles of the visible map region will load automatically. As the user navigates around the map, campsites within the new map view will dynamically populate. When granted location access, a location button in the top right corner of the map allows the user to quickly recenter the map on their current location. To view a campsite’s details from the map view, click on a campsite icon and then click on the campsite name to navigate to the campsite details view. From the campsite list view, users can toggle between viewing nearby campsites or all campsites in the database, and can click on any campsite name to navigate to the detailed view.
+
+### Creating/Editing Campsites:
+
+To create a campsite, long press anywhere on the map to navigate to the create campsite view. Enter the campsite details on this page, click add, and the campsite will be added to the database. The campsite location will correspond to the position of the long press entered on the map. To edit a campsite’s details, navigate to the campsite details view and press the edit button.
+
+### Viewing/Creating/Editing Trips:
+
+To view the trips associated with the user’s account, click the trips button on the bottom menu. This will navigate to the trips overview, which will show all of the trips that a user has created. Clicking add trip will create a new trip, where campsites can be added using a drop-down list of available campsites in the database. Clicking on a trip in the list will navigate to the trip details view, where you can view the campsites that have previously been added to the trip or add new campsites.
