@@ -6,6 +6,28 @@
 ## Overview
 RV Co-Pilot is an iOS and Android mobile application designed to help campers plan trips, discover campsites, and manage their travel itineraries. It was built using React Native with Expo for the frontend and Python with Flask REST API and MySQL database for the backend.
 
+## Key Features
+- Interactive map-based campsite discovery
+- User-created campsites with detailed attributes
+- Trip planning with campsite organization
+- Location-based search and dynamic map updates
+- Full CRUD functionality across core entities
+
+## Running This Project Locally
+
+This project was developed using OSU infrastructure and includes some dependencies that are not publicly accessible.
+
+To fully run the application locally, you would need:
+- Access to the OSU Campus VPN (for database connectivity)
+- Private `.env` configuration files (database credentials and API keys)
+
+Because these dependencies are not included, the application may not run as expected in a standalone environment.
+
+## Application Demo
+
+To view the full functionality of the application, please watch the demo below:
+👉 https://www.youtube.com/watch?v=gtBSeBeQ0u8
+
 ## Installation
 
 To run the project locally, both the backend server and the frontend Expo application must be installed and running. The following instructions describe how to install the required components and run the application locally.
@@ -25,17 +47,12 @@ Before installing the project, ensure the following software is installed on you
 
 These tools are required to clone the repository, run the backend server, and launch the mobile application.
 
-To ensure the backend works properly, you will need to connect to the OSU Campus VPN. This ensures you can access the OSU MySQL database. 
-
-
-
 ### Clone the Repository
 - Open a terminal and choose your desired project directory.
 - Clone the repository from GitHub using the terminal:
   - git clone https://github.com/sewoo10/rv-co-pilot.git 
   - Navigate into the project directory:
   - cd rv-co-pilot
-
 
 ### Installing/Starting the Backend
 - Navigate to the backend directory:
@@ -52,7 +69,7 @@ To ensure the backend works properly, you will need to connect to the OSU Campus
   - pip install -r requirements.txt
 - Create an environment configuration file named:
   - .env
-- Inside the .env file, add the required database login and authentication info provided seperately
+- Inside the .env file, add the required database credentials (not included in this repository).
 
 - Start the backend server:
   - python wsgi.py
@@ -66,7 +83,7 @@ To ensure the backend works properly, you will need to connect to the OSU Campus
   - npm install
 - Create an environment configuration file named:
   - .env
-- Add Google Maps API keys provided seperately to .env for map features
+- Add a valid Google Maps API key to the .env file for map functionality.
 - Leave this terminal window open and proceed to the next steps
 
 ### Running the Application
@@ -80,7 +97,6 @@ To ensure the backend works properly, you will need to connect to the OSU Campus
   - Press i
 - The application will open in the simulator
 
-
 **For Android emulator (Android only, via Expo go):**
 - Ensure an Android emulator is installed and running
 - Install Expo Go in the android emulator
@@ -89,7 +105,6 @@ To ensure the backend works properly, you will need to connect to the OSU Campus
   - Wait for the app to bundle
   -  Press a
 - The application will open in the emulator
-
 
 ## Application Use
 
